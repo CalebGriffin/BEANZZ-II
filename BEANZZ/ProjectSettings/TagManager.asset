@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Resizer
   - Helper
+  - HelperHolder
   layers:
   - Default
   - TransparentFX
@@ -13,8 +14,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - Helper
+  - CaptiveHelper
   - Interactive
   - 
   - 
