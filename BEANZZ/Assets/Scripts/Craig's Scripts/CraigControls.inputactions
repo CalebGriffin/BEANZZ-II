@@ -1,0 +1,113 @@
+{
+    "name": "CraigControls",
+    "maps": [
+        {
+            "name": "Player",
+            "id": "ad2a7fc2-fb62-4379-b614-ca5514ce13a1",
+            "actions": [
+                {
+                    "name": "MovePlayer",
+                    "type": "Value",
+                    "id": "095640a9-6a9a-4662-9e78-c6cd5fd25d53",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "RotatePlayer",
+                    "type": "Value",
+                    "id": "09ae0928-4c3e-4b0b-b0a4-93e8e46b5f47",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "2D Vector",
+                    "id": "4643946b-38a3-49fa-a8f3-1a27d29d9bc7",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MovePlayer",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "0068275c-d081-491a-904d-18870a7269d5",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardAndMouse",
+                    "action": "MovePlayer",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "d275b995-efbe-4ff3-b4b4-5ffa2874f93f",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardAndMouse",
+                    "action": "MovePlayer",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "1559592e-2bc6-47c6-b017-81c6dc6383a6",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardAndMouse",
+                    "action": "MovePlayer",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "c2566eab-480e-4516-b5c4-a3a59d7a2677",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardAndMouse",
+                    "action": "MovePlayer",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "679fb1f1-24c3-4b23-b84c-f97761d8fe20",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardAndMouse",
+                    "action": "RotatePlayer",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "KeyboardAndMouse",
+            "bindingGroup": "KeyboardAndMouse",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}
