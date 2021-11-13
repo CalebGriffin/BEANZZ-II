@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6752738396868808882}
   - component: {fileID: 2679121229574689081}
   - component: {fileID: 2738438995608794035}
+  - component: {fileID: 1358917736636496898}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -97,6 +98,27 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
+--- !u!114 &1358917736636496898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1667575262018239723}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ee157fc52f42a6439a167d94e6aa8f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doorGameObject: {fileID: 0}
+  isHelperTriggered: 0
+  helperSizeRequired: 0
+  lockMats:
+  - {fileID: 2100000, guid: 18c60a653f2ffc64d89e2baddfecc771, type: 2}
+  - {fileID: 2100000, guid: 29e787a65e07b4347a5228dc1550c229, type: 2}
+  - {fileID: 2100000, guid: 29e787a65e07b4347a5228dc1550c229, type: 2}
+  - {fileID: 2100000, guid: 29e787a65e07b4347a5228dc1550c229, type: 2}
+  - {fileID: 2100000, guid: 4454b2a5c5da01f418105f101feb8ab0, type: 2}
 --- !u!1 &3008909469000908202
 GameObject:
   m_ObjectHideFlags: 0

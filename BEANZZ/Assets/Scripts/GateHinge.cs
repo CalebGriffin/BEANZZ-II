@@ -2,15 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class GateHinge : MonoBehaviour, DoorInterface //inherits DoorInterface
 {
-    
+
     public enum GateState
     {
         Closed = 0,
         Open,
         NumOfStates
     }
+
+    [SerializeField] private GameObject myGate;
+    [SerializeField] private GameObject[] myLocks = new GameObject[(int)GateState.NumOfStates];
+
 
     private GateState currentGateState = GateState.Closed;
     [SerializeField] private GateState newGateState = GateState.Closed;
@@ -25,14 +31,18 @@ public class GateHinge : MonoBehaviour, DoorInterface //inherits DoorInterface
     private float timeElapsed = 0f;
 
     [SerializeField] bool oneWay = false;
+    [SerializeField] private bool helperTriggered = false;
+
 
     // Start is called before the first frame update
     void Awake()
     {
+        
+
         currentGateState = GateState.Closed;
         newGateState = GateState.Closed;
-        closedRotation = Quaternion.LookRotation(transform.TransformDirection(closedDirection));
-        openRotation = Quaternion.LookRotation(transform.TransformDirection(openDirection));
+        closedRotation = Quaternion.LookRotation(myGate.transform.TransformDirection(closedDirection));
+        openRotation = Quaternion.LookRotation(myGate.transform.TransformDirection(openDirection));
         targetRotation = closedRotation;
         startRotation = closedRotation;
         timeElapsed = slerpDuration;
@@ -79,7 +89,7 @@ public class GateHinge : MonoBehaviour, DoorInterface //inherits DoorInterface
         if (timeElapsed < slerpDuration)
         {
             //spherically lerp (slerp) from the starting point to the target as defined in the switch case above
-            transform.rotation = Quaternion.Slerp(startRotation, targetRotation, timeElapsed / slerpDuration);
+            myGate.transform.rotation = Quaternion.Slerp(startRotation, targetRotation, timeElapsed / slerpDuration);
             timeElapsed += Time.deltaTime;
         }
         else
@@ -87,17 +97,34 @@ public class GateHinge : MonoBehaviour, DoorInterface //inherits DoorInterface
             //fix the timeElapsed = slerpDuration otherwise the calculations in the switch case won't be accurate
             timeElapsed = slerpDuration;
             //force the final value
-            transform.rotation = targetRotation;
+            myGate.transform.rotation = targetRotation;
+            if(currentGateState == GateState.Closed)
+            {
+                ToggleLockActive(true);
+            }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if((other.tag == "Player") && (currentGateState == GateState.Open) && (oneWay))
+        if(helperTriggered)
         {
-            //close the door behind the player
-            CloseDoor();
+            //Needs upgrading to detect last helper in group (use distance from player?)
+            if ((other.tag == "Helper") && (currentGateState == GateState.Open) && (oneWay))
+            {
+                //close the door behind the player
+                CloseDoor();
+            }
         }
+        else
+        {
+            if ((other.tag == "Player") && (currentGateState == GateState.Open) && (oneWay))
+            {
+                //close the door behind the player
+                CloseDoor();
+            }
+        }
+        
     }
 
     public void OpenDoor()
@@ -109,6 +136,8 @@ public class GateHinge : MonoBehaviour, DoorInterface //inherits DoorInterface
     public void CloseDoor()
     {
         newGateState = GateState.Closed;
+
+        
     }
 
     public void ToggleDoor()
@@ -122,4 +151,31 @@ public class GateHinge : MonoBehaviour, DoorInterface //inherits DoorInterface
             CloseDoor();
         }
     }
+
+    public void UnlockDoor()
+    {
+        ToggleLockActive(false);
+    }
+
+    public void SetLockMaterial(Material mat)
+    {
+        SetLocksMaterial(mat);
+    }
+
+    private void ToggleLockActive(bool active)
+    {
+        for(int i = 0; i < (int)GateState.NumOfStates; i++)
+        {
+            myLocks[i].SetActive(active);
+        }
+    }
+
+    private void SetLocksMaterial(Material mat)
+    {
+        for (int i = 0; i < (int)GateState.NumOfStates; i++)
+        {
+            myLocks[i].GetComponent<Renderer>().material = mat;
+        }
+    }
+
 }
