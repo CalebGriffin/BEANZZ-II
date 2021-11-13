@@ -82,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate() 
     {
-        if (Physics.SphereCast(new Vector3(transform.position.x, transform.position.y + 2, transform.position.z), 1f, transform.forward, out hit, raycastDist, interactiveLayer))
+        if (Physics.SphereCast(new Vector3(transform.position.x, transform.position.y + 2, transform.position.z), raycastDist / 25f, transform.forward, out hit, raycastDist, interactiveLayer))
         {
             cursorObj.transform.position = hit.collider.gameObject.transform.position;
             Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 2, transform.position.z), transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
