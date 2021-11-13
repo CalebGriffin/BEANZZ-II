@@ -10,6 +10,7 @@ public class HelperMovement : MonoBehaviour
         Idle = 0,
         FollowPlayer,
         GotoTarget,
+        Selected,
         NumOfStates
     }
 
@@ -38,7 +39,7 @@ public class HelperMovement : MonoBehaviour
         mainCam = GameObject.FindGameObjectWithTag("MainCamera");
         myHelperData.targetPosition = transform.position;
         myHelperData.lookAtPosition = mainCam.transform.position;
-        myHelperData.helperState = HelperState.FollowPlayer;
+        myHelperData.helperState = HelperState.Idle;
         transform.LookAt(myHelperData.lookAtPosition);
         myCollider = GetComponent<Collider>();
         myAgent = GetComponent<NavMeshAgent>();
@@ -50,20 +51,30 @@ public class HelperMovement : MonoBehaviour
         switch (myHelperData.helperState)
         {
             case HelperState.Idle:
+                this.gameObject.GetComponent<Rigidbody>().useGravity = true;
                 myHelperData.lookAtPosition = mainCam.transform.position;
                 transform.LookAt(myHelperData.lookAtPosition);
                 break;
             case HelperState.FollowPlayer:
+                this.gameObject.GetComponent<Rigidbody>().useGravity = true;
                 transform.LookAt(new Vector3(myHelperData.lookAtPosition.x, transform.position.y, myHelperData.lookAtPosition.z));
                 myAgent.destination = myHelperData.targetPosition;
                 break;
             case HelperState.GotoTarget:
+                this.gameObject.GetComponent<Rigidbody>().useGravity = true;
                 transform.LookAt(new Vector3(myHelperData.lookAtPosition.x, transform.position.y, myHelperData.lookAtPosition.z));
                 myAgent.destination = myHelperData.targetPosition;
                 if(Vector3.Distance(myHelperData.targetPosition, transform.position) < targetTollerance)
                 {
                     myHelperData.helperState = HelperState.Idle;
                 }
+                break;
+            case HelperState.Selected:
+                myHelperData.lookAtPosition = mainCam.transform.position;
+                transform.LookAt(myHelperData.lookAtPosition);
+                this.gameObject.GetComponent<Rigidbody>().useGravity = false;
+                myAgent.destination = myHelperData.targetPosition;
+                transform.position = new Vector3(transform.position.x, myHelperHolder.transform.position.y + 1.5f, transform.position.z);
                 break;
             default:
                 break;
@@ -93,11 +104,30 @@ public class HelperMovement : MonoBehaviour
         Physics.IgnoreLayerCollision(6, 7, true); //ignore collisions between HelperHolder and CaptiveHelper layer
     }
 
-    void CleartHelperHolder(GameObject helperHolder)
+    void ClearHelperHolder()
     {
+        myHelperHolder.GetComponent<HelperHolderSystem>().RemoveHelper(this.gameObject);
         myHelperHolder = null;
         //transform.parent = null;
         gameObject.layer = 0; //set back to default layer so can be collected again (collisions with HelperHolder are back on)
         Physics.IgnoreLayerCollision(6, 7, true); //ignore collisions between HelperHolder and CaptiveHelper layer
+    }
+
+    void SetSelected(bool selected)
+    {
+        if (selected == true)
+        {
+            myHelperData.helperState = HelperState.Selected;
+        }
+        else
+        {
+            myHelperData.helperState = HelperState.FollowPlayer;
+        }
+
+    }
+
+    public HelperState GetHelperState()
+    {
+        return myHelperData.helperState;
     }
 }

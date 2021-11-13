@@ -8,7 +8,7 @@ public class DoorButton : MonoBehaviour
     [SerializeField] bool isHelperTriggered = false;
     [SerializeField] int helperSizeRequired = 0;
     private DoorInterface door;
-    [SerializeField] private Material[] lockMats = new Material[5]; //will replicate Resize for now, but we should consider making the colours static so only in 1 place.
+    [SerializeField] private Material[] lockMats = new Material[4]; //will replicate Resize for now, but we should consider making the colours static so only in 1 place.
 
     private void Awake()
     {
@@ -21,7 +21,7 @@ public class DoorButton : MonoBehaviour
     {
         if(isHelperTriggered)
         {
-            if ((other.tag == "Helper") && (other.GetComponent<Resize>().sizeIndex == (helperSizeRequired+1)))
+            if ((other.tag == "Helper") && (other.GetComponent<Resize>().sizeIndex == (helperSizeRequired)))
             {
                 door.UnlockDoor();
                 door.ToggleDoor();

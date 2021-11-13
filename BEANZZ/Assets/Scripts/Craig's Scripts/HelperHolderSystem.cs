@@ -32,7 +32,14 @@ public class HelperHolderSystem : MonoBehaviour
             HelperMovement.HelperData helperData;
             helperData.targetPosition = transform.position + transform.TransformDirection(helperOffset);
             helperData.lookAtPosition = player.transform.position;
-            helperData.helperState = HelperMovement.HelperState.FollowPlayer;
+            if (helper.GetComponent<HelperMovement>().GetHelperState() != HelperMovement.HelperState.Selected)
+            {
+                helperData.helperState = HelperMovement.HelperState.FollowPlayer;
+            }
+            else
+            {
+                helperData.helperState = HelperMovement.HelperState.Selected;
+            }
             helper.SendMessage("SetTarget", helperData);
         }
         
@@ -56,14 +63,33 @@ public class HelperHolderSystem : MonoBehaviour
         return taggedChildren;
     }
 
+    public GameObject GetHelperOfSize(int size)
+    {
+        foreach (GameObject helper in helpers)
+        {
+            if (helper.GetComponent<Resize>().sizeIndex == size)
+            {
+                return helper;
+            }
+        }
+
+        return null;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Helper")
+        if(other.tag == "Helper" && other.GetComponent<HelperMovement>().GetHelperState() == HelperMovement.HelperState.Idle)
         {
+            Debug.Log("Set the Helper Holder");
             helpers.Add(other.gameObject);
             other.SendMessage("SetHelperHolder", gameObject);
             
             //Debug.Log("Collision with Helper");
         }
+    }
+
+    public void RemoveHelper(GameObject helperToRemove)
+    {
+        helpers.Remove(helperToRemove);
     }
 }

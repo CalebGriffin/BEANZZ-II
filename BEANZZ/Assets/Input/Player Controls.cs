@@ -49,6 +49,46 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=2)""
+                },
+                {
+                    ""name"": ""Yeet"",
+                    ""type"": ""Button"",
+                    ""id"": ""9e4eb3e8-a34e-47bd-9c97-4b3722721765"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""ButtonNorth"",
+                    ""type"": ""Button"",
+                    ""id"": ""27906ce3-de3c-4446-a5b9-ac830c8c66e8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)""
+                },
+                {
+                    ""name"": ""ButtonSouth"",
+                    ""type"": ""Button"",
+                    ""id"": ""485912cb-622a-4c38-9de8-e224278c4dc7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)""
+                },
+                {
+                    ""name"": ""ButtonEast"",
+                    ""type"": ""Button"",
+                    ""id"": ""96099fa8-beb5-4fd3-a1a1-3ebd23ece3c8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)""
+                },
+                {
+                    ""name"": ""ButtonWest"",
+                    ""type"": ""Button"",
+                    ""id"": ""94e63097-882a-45b0-9e34-8b45f86447e3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=1)""
                 }
             ],
             ""bindings"": [
@@ -227,6 +267,61 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""Cursor Away"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""93177f9f-e537-42ac-a29e-317386839440"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller;All Controls"",
+                    ""action"": ""Yeet"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e9cdb86d-1fed-46fc-b6c1-31df2e4b9dfb"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller;All Controls"",
+                    ""action"": ""ButtonNorth"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1093c124-71ad-4c4c-b2a7-7cfc2c473c87"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller;All Controls"",
+                    ""action"": ""ButtonSouth"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""11cf0343-b89a-40a6-bc65-d4b4d49e011d"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller;All Controls"",
+                    ""action"": ""ButtonEast"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7858019a-57fe-46cd-a06b-8225a140a7de"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller;All Controls"",
+                    ""action"": ""ButtonWest"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -277,6 +372,11 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Player_Rotate = m_Player.FindAction("Rotate", throwIfNotFound: true);
         m_Player_CursorTowards = m_Player.FindAction("Cursor Towards", throwIfNotFound: true);
         m_Player_CursorAway = m_Player.FindAction("Cursor Away", throwIfNotFound: true);
+        m_Player_Yeet = m_Player.FindAction("Yeet", throwIfNotFound: true);
+        m_Player_ButtonNorth = m_Player.FindAction("ButtonNorth", throwIfNotFound: true);
+        m_Player_ButtonSouth = m_Player.FindAction("ButtonSouth", throwIfNotFound: true);
+        m_Player_ButtonEast = m_Player.FindAction("ButtonEast", throwIfNotFound: true);
+        m_Player_ButtonWest = m_Player.FindAction("ButtonWest", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -330,6 +430,11 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Rotate;
     private readonly InputAction m_Player_CursorTowards;
     private readonly InputAction m_Player_CursorAway;
+    private readonly InputAction m_Player_Yeet;
+    private readonly InputAction m_Player_ButtonNorth;
+    private readonly InputAction m_Player_ButtonSouth;
+    private readonly InputAction m_Player_ButtonEast;
+    private readonly InputAction m_Player_ButtonWest;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -338,6 +443,11 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @Rotate => m_Wrapper.m_Player_Rotate;
         public InputAction @CursorTowards => m_Wrapper.m_Player_CursorTowards;
         public InputAction @CursorAway => m_Wrapper.m_Player_CursorAway;
+        public InputAction @Yeet => m_Wrapper.m_Player_Yeet;
+        public InputAction @ButtonNorth => m_Wrapper.m_Player_ButtonNorth;
+        public InputAction @ButtonSouth => m_Wrapper.m_Player_ButtonSouth;
+        public InputAction @ButtonEast => m_Wrapper.m_Player_ButtonEast;
+        public InputAction @ButtonWest => m_Wrapper.m_Player_ButtonWest;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -359,6 +469,21 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @CursorAway.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCursorAway;
                 @CursorAway.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCursorAway;
                 @CursorAway.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCursorAway;
+                @Yeet.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnYeet;
+                @Yeet.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnYeet;
+                @Yeet.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnYeet;
+                @ButtonNorth.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtonNorth;
+                @ButtonNorth.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtonNorth;
+                @ButtonNorth.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtonNorth;
+                @ButtonSouth.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtonSouth;
+                @ButtonSouth.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtonSouth;
+                @ButtonSouth.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtonSouth;
+                @ButtonEast.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtonEast;
+                @ButtonEast.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtonEast;
+                @ButtonEast.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtonEast;
+                @ButtonWest.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtonWest;
+                @ButtonWest.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtonWest;
+                @ButtonWest.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtonWest;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -375,6 +500,21 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @CursorAway.started += instance.OnCursorAway;
                 @CursorAway.performed += instance.OnCursorAway;
                 @CursorAway.canceled += instance.OnCursorAway;
+                @Yeet.started += instance.OnYeet;
+                @Yeet.performed += instance.OnYeet;
+                @Yeet.canceled += instance.OnYeet;
+                @ButtonNorth.started += instance.OnButtonNorth;
+                @ButtonNorth.performed += instance.OnButtonNorth;
+                @ButtonNorth.canceled += instance.OnButtonNorth;
+                @ButtonSouth.started += instance.OnButtonSouth;
+                @ButtonSouth.performed += instance.OnButtonSouth;
+                @ButtonSouth.canceled += instance.OnButtonSouth;
+                @ButtonEast.started += instance.OnButtonEast;
+                @ButtonEast.performed += instance.OnButtonEast;
+                @ButtonEast.canceled += instance.OnButtonEast;
+                @ButtonWest.started += instance.OnButtonWest;
+                @ButtonWest.performed += instance.OnButtonWest;
+                @ButtonWest.canceled += instance.OnButtonWest;
             }
         }
     }
@@ -412,5 +552,10 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnRotate(InputAction.CallbackContext context);
         void OnCursorTowards(InputAction.CallbackContext context);
         void OnCursorAway(InputAction.CallbackContext context);
+        void OnYeet(InputAction.CallbackContext context);
+        void OnButtonNorth(InputAction.CallbackContext context);
+        void OnButtonSouth(InputAction.CallbackContext context);
+        void OnButtonEast(InputAction.CallbackContext context);
+        void OnButtonWest(InputAction.CallbackContext context);
     }
 }

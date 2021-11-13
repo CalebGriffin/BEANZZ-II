@@ -8,6 +8,10 @@ public class PlayerMovement : MonoBehaviour
 {
     private CharacterController characterController;
 
+    private GameObject currentHelper = null;
+
+    [SerializeField] GameObject helperHolderObj;
+
     [SerializeField] CinemachineFreeLook cinemachineFreeLook;
 
     [SerializeField] GameObject mainCamera;
@@ -165,5 +169,71 @@ public class PlayerMovement : MonoBehaviour
     {
         cinemachineFreeLook.m_XAxis.Value += lookingVec.x * sensitivity * Time.deltaTime;
         cinemachineFreeLook.m_YAxis.Value += lookingVec.y * Time.deltaTime;
+    }
+
+    public void OnYeet()
+    {
+        HelperMovement.HelperData data;
+        data.targetPosition = cursorObj.transform.position;
+        data.lookAtPosition = cursorObj.transform.position;
+        data.helperState = HelperMovement.HelperState.GotoTarget;
+
+        if (currentHelper != null)
+        {
+            Debug.Log("Got a Helper!");
+            currentHelper.SendMessage("ClearHelperHolder");
+            currentHelper.SendMessage("SetTarget", data);
+
+            currentHelper = null;
+        }
+    }
+
+    public void OnButtonNorth()
+    {
+        Debug.Log("Button North");
+        
+        SelectHelper(2);
+    }
+
+    public void OnButtonSouth()
+    {
+        SelectHelper(1);
+    }
+
+    public void OnButtonEast()
+    {
+        SelectHelper(3);
+    }
+
+    public void OnButtonWest()
+    {
+        SelectHelper(0);
+    }
+
+    private void SelectHelper(int sizeSelected)
+    {
+        if (currentHelper != null)
+        {
+            currentHelper.SendMessage("SetSelected", false);
+            if (currentHelper.GetComponent<Resize>().sizeIndex == sizeSelected)
+            {
+                currentHelper = null;
+            }
+            else
+            {
+                currentHelper = null;
+                SelectHelper(sizeSelected);
+            }
+        }
+        else
+        {
+            currentHelper = helperHolderObj.GetComponent<HelperHolderSystem>().GetHelperOfSize(sizeSelected);
+
+            if (currentHelper != null)
+            {
+                Debug.Log("Selected");
+                currentHelper.SendMessage("SetSelected", true);
+            }
+        }
     }
 }

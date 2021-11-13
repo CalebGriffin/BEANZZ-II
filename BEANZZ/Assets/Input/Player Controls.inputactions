@@ -36,6 +36,46 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press(behavior=2)"
+                },
+                {
+                    "name": "Yeet",
+                    "type": "Button",
+                    "id": "9e4eb3e8-a34e-47bd-9c97-4b3722721765",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press"
+                },
+                {
+                    "name": "ButtonNorth",
+                    "type": "Button",
+                    "id": "27906ce3-de3c-4446-a5b9-ac830c8c66e8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)"
+                },
+                {
+                    "name": "ButtonSouth",
+                    "type": "Button",
+                    "id": "485912cb-622a-4c38-9de8-e224278c4dc7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)"
+                },
+                {
+                    "name": "ButtonEast",
+                    "type": "Button",
+                    "id": "96099fa8-beb5-4fd3-a1a1-3ebd23ece3c8",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)"
+                },
+                {
+                    "name": "ButtonWest",
+                    "type": "Button",
+                    "id": "94e63097-882a-45b0-9e34-8b45f86447e3",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press(behavior=1)"
                 }
             ],
             "bindings": [
@@ -212,6 +252,61 @@
                     "processors": "",
                     "groups": "Controller;All Controls",
                     "action": "Cursor Away",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "93177f9f-e537-42ac-a29e-317386839440",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller;All Controls",
+                    "action": "Yeet",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e9cdb86d-1fed-46fc-b6c1-31df2e4b9dfb",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller;All Controls",
+                    "action": "ButtonNorth",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1093c124-71ad-4c4c-b2a7-7cfc2c473c87",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller;All Controls",
+                    "action": "ButtonSouth",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "11cf0343-b89a-40a6-bc65-d4b4d49e011d",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller;All Controls",
+                    "action": "ButtonEast",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7858019a-57fe-46cd-a06b-8225a140a7de",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller;All Controls",
+                    "action": "ButtonWest",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

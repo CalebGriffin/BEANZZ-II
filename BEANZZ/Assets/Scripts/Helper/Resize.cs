@@ -5,9 +5,9 @@ using UnityEngine;
 public class Resize : MonoBehaviour
 {
 
-    [Range(1, 5)]
+    [Range(0, 3)]
     public int sizeIndex;
-    int sizeIndexMin = 1, sizeIndexMax = 5;
+    int sizeIndexMin = 0, sizeIndexMax = 3;
     float offset = 0.3f, sizeIndexWeight = 0.1f;
 
     public Material[] materials;
@@ -21,6 +21,7 @@ public class Resize : MonoBehaviour
         mat = GetComponentInChildren<Renderer>().material;
 
         ResizeHelper();
+        GiveColour();
     }
 
     void OnTriggerEnter(Collider col)
@@ -49,7 +50,7 @@ public class Resize : MonoBehaviour
     void ResizeHelper()
     {
         sizeIndex = Mathf.Clamp(sizeIndex, sizeIndexMin, sizeIndexMax);
-        float s = (float)sizeIndex;
+        float s = (float)sizeIndex + 1f;
         gameObject.transform.localScale = new Vector3(offset + s * sizeIndexWeight, offset + s * sizeIndexWeight, offset + s * sizeIndexWeight);
     }
 
@@ -64,11 +65,13 @@ public class Resize : MonoBehaviour
 
     void GiveColour()
     {
-        if (sizeIndex == sizeIndexMax)
-            mat.color = materials[1].color;
-        else if (sizeIndex == sizeIndexMin)
-            mat.color = materials[2].color;
-        else
-            mat.color = materials[0].color;
+        //if (sizeIndex == sizeIndexMax)
+            //mat.color = materials[1].color;
+        //else if (sizeIndex == sizeIndexMin)
+            //mat.color = materials[2].color;
+        //else
+            //mat.color = materials[0].color;
+        
+        mat.color = materials[sizeIndex].color;
     }
 }
