@@ -36,7 +36,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""Cursor Towards"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""e480a44d-ce80-4fac-b487-7875818e0ac7"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -44,7 +44,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""Cursor Away"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""f43b6469-26c6-4ba0-bd48-2c1efa07c45e"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",

@@ -244,7 +244,10 @@ MonoBehaviour:
   cursorObj: {fileID: 1115727439654573118}
   animator: {fileID: 0}
   moveSpeed: 8
-  turnSmoothTime: 0.3
+  turnSmoothTime: 0.8
+  interactiveLayer:
+    serializedVersion: 2
+    m_Bits: 256
   sensitivity: 75
 --- !u!1 &372545610410189986
 GameObject:
@@ -829,7 +832,6 @@ GameObject:
   - component: {fileID: 1115727439654573114}
   - component: {fileID: 1115727439654573117}
   - component: {fileID: 1115727439654573116}
-  - component: {fileID: 1115727439654573115}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -914,35 +916,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1115727439654573115
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1115727439654573118}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a7cb9a96bd644e56a9dcd59580d711a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 5
-  lookLeftAction:
-    m_Name: Look Left
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 6189580b-1e9d-4837-966c-fa13555f483c
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-  lookRightAction:
-    m_Name: Look Right
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: c2bfc529-bdf0-41eb-856a-dd684c597728
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
 --- !u!1 &1175311405769091862
 GameObject:
   m_ObjectHideFlags: 0

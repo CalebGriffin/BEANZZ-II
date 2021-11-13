@@ -105,16 +105,6 @@ public class CursorController : MonoBehaviour
     public void OnCursorTowards(InputValue input)
     {
         //you can't get the boolean directly- but isPressed does the same, this will trigger when pressed and again when depressed
-        bool inputBool = input.isPressed;
-
-        if (inputBool)
-        {
-            towardsBool = true;
-        }
-        else
-        {
-            towardsBool = false;
-        }
     }
 
     public void OnCursorAway(InputValue input)

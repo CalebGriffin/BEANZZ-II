@@ -27,12 +27,16 @@ public class PlayerMovement : MonoBehaviour
 
     float raycastDist = 30;
     RaycastHit hit;
+    public LayerMask interactiveLayer;
 
     bool isLooking;
 
     Vector2 lookingVec;
 
     Vector3 direction;
+
+    bool towardsBool;
+    bool awayBool;
 
     [SerializeField] float sensitivity;
 
@@ -65,19 +69,28 @@ public class PlayerMovement : MonoBehaviour
             Look();
         }
 
+        if (towardsBool)
+        {
+            raycastDist += -9f * Time.deltaTime;
+        }
+
+        if (awayBool)
+        {
+            raycastDist += +9f * Time.deltaTime;
+        }
     }
 
     private void FixedUpdate() 
     {
-        if (Physics.Raycast(new Vector3(transform.position.x, transform.position.y + 2, transform.position.z), Vector3.forward, out hit, raycastDist))
+        if (Physics.SphereCast(new Vector3(transform.position.x, transform.position.y + 2, transform.position.z), 1f, transform.forward, out hit, raycastDist, interactiveLayer))
         {
             cursorObj.transform.position = hit.collider.gameObject.transform.position;
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+            Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 2, transform.position.z), transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
         }
         else
         {
             cursorObj.transform.localPosition = new Vector3(0f, 0f, raycastDist);
-            Debug.DrawRay(transform.position, transform.TransformDirection(Vector3.forward) * 1000, Color.white);
+            Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 2, transform.position.z), transform.TransformDirection(Vector3.forward) * raycastDist, Color.blue);
         }
     }
         
@@ -108,6 +121,34 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             isLooking = false;
+        }
+    }
+
+    public void OnCursorTowards(InputValue input)
+    {
+        bool inputBool = input.isPressed;
+
+        if (inputBool)
+        {
+            towardsBool = true;
+        }
+        else
+        {
+            towardsBool = false;
+        }
+    }
+
+    public void OnCursorAway(InputValue input)
+    {
+        bool inputBool = input.isPressed;
+
+        if (inputBool)
+        {
+            awayBool = true;
+        }
+        else
+        {
+            awayBool = false;
         }
     }
 
