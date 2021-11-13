@@ -24,7 +24,7 @@ public class HelperMovement : MonoBehaviour
 
     private HelperData myHelperData;
     private Vector3 smoothVel = Vector3.zero;
-    private float smoothTime = 50.0f;
+    //private float smoothTime = 50.0f; //Used in old helper system
     private GameObject myHelperHolder;
     private Collider myCollider;
     private GameObject mainCam;
@@ -81,6 +81,7 @@ public class HelperMovement : MonoBehaviour
         }
         
         /*
+        //Old Helper movement system
         transform.position = Vector3.SmoothDamp(transform.position, new Vector3(myHelperData.targetPosition.x, transform.position.y, myHelperData.targetPosition.z), ref smoothVel, smoothTime * Time.deltaTime);
         if (smoothVel == Vector3.zero)
         {
