@@ -76,6 +76,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press(behavior=1)"
+                },
+                {
+                    "name": "StartButton",
+                    "type": "Button",
+                    "id": "6790b25d-b726-45a6-9c3f-d13f8ae9fbc7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Press"
                 }
             ],
             "bindings": [
@@ -307,6 +315,17 @@
                     "processors": "",
                     "groups": "Controller;All Controls",
                     "action": "ButtonWest",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ce90d22e-6951-4a44-823f-93f9ab80f50d",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Controller;All Controls",
+                    "action": "StartButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

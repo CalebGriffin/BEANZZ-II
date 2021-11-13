@@ -89,6 +89,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press(behavior=1)""
+                },
+                {
+                    ""name"": ""StartButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""6790b25d-b726-45a6-9c3f-d13f8ae9fbc7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
                 }
             ],
             ""bindings"": [
@@ -322,6 +330,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""ButtonWest"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ce90d22e-6951-4a44-823f-93f9ab80f50d"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller;All Controls"",
+                    ""action"": ""StartButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -377,6 +396,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Player_ButtonSouth = m_Player.FindAction("ButtonSouth", throwIfNotFound: true);
         m_Player_ButtonEast = m_Player.FindAction("ButtonEast", throwIfNotFound: true);
         m_Player_ButtonWest = m_Player.FindAction("ButtonWest", throwIfNotFound: true);
+        m_Player_StartButton = m_Player.FindAction("StartButton", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -435,6 +455,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_ButtonSouth;
     private readonly InputAction m_Player_ButtonEast;
     private readonly InputAction m_Player_ButtonWest;
+    private readonly InputAction m_Player_StartButton;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -448,6 +469,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @ButtonSouth => m_Wrapper.m_Player_ButtonSouth;
         public InputAction @ButtonEast => m_Wrapper.m_Player_ButtonEast;
         public InputAction @ButtonWest => m_Wrapper.m_Player_ButtonWest;
+        public InputAction @StartButton => m_Wrapper.m_Player_StartButton;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -484,6 +506,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @ButtonWest.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtonWest;
                 @ButtonWest.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtonWest;
                 @ButtonWest.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnButtonWest;
+                @StartButton.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStartButton;
+                @StartButton.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStartButton;
+                @StartButton.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStartButton;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -515,6 +540,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @ButtonWest.started += instance.OnButtonWest;
                 @ButtonWest.performed += instance.OnButtonWest;
                 @ButtonWest.canceled += instance.OnButtonWest;
+                @StartButton.started += instance.OnStartButton;
+                @StartButton.performed += instance.OnStartButton;
+                @StartButton.canceled += instance.OnStartButton;
             }
         }
     }
@@ -557,5 +585,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnButtonSouth(InputAction.CallbackContext context);
         void OnButtonEast(InputAction.CallbackContext context);
         void OnButtonWest(InputAction.CallbackContext context);
+        void OnStartButton(InputAction.CallbackContext context);
     }
 }

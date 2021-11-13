@@ -61,27 +61,31 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        characterController.SimpleMove(Vector3.down * 9.8f * Time.deltaTime);
-
-        if (animator.GetBool("isMoving") == true)
+        if (GameSystemController.Instance.CurrentGameState == GameSystemController.GameStates.GamePlay)
         {
-            Move();
-        }
+            characterController.SimpleMove(Vector3.down * 9.8f * Time.deltaTime);
 
-        if (isLooking == true)
-        {
-            Look();
-        }
+            if (animator.GetBool("isMoving") == true)
+            {
+                Move();
+            }
 
-        if (towardsBool)
-        {
-            raycastDist += -9f * Time.deltaTime;
-        }
+            if (isLooking == true)
+            {
+                Look();
+            }
 
-        if (awayBool)
-        {
-            raycastDist += +9f * Time.deltaTime;
+            if (towardsBool)
+            {
+                raycastDist += -9f * Time.deltaTime;
+            }
+
+            if (awayBool)
+            {
+                raycastDist += +9f * Time.deltaTime;
+            }
         }
+        
     }
 
     private void FixedUpdate() 
@@ -102,57 +106,76 @@ public class PlayerMovement : MonoBehaviour
     public void OnMove(InputValue input)
     {
         Vector2 inputVec = input.Get<Vector2>();
-        direction = new Vector3(inputVec.x, 0f, inputVec.y);
-
-        if (direction.magnitude >= 0.1f)
+        if (GameSystemController.Instance.CurrentGameState == GameSystemController.GameStates.GamePlay)
         {
-            animator.SetBool("isMoving", true);
+            
+            direction = new Vector3(inputVec.x, 0f, inputVec.y);
+
+            if (direction.magnitude >= 0.1f)
+            {
+                animator.SetBool("isMoving", true);
+            }
+            else
+            {
+                animator.SetBool("isMoving", false);
+            }
+            
         }
         else
         {
+            direction = new Vector3(inputVec.x, 0f, inputVec.y);
             animator.SetBool("isMoving", false);
         }
     }
 
     public void OnRotate(InputValue input)
     {
-        lookingVec = input.Get<Vector2>();
-        
-        if (lookingVec != Vector2.zero)
-        { 
-            isLooking = true;
-        }
-        else
+        if (GameSystemController.Instance.CurrentGameState == GameSystemController.GameStates.GamePlay)
         {
-            isLooking = false;
+            lookingVec = input.Get<Vector2>();
+
+            if (lookingVec != Vector2.zero)
+            {
+                isLooking = true;
+            }
+            else
+            {
+                isLooking = false;
+            }
         }
     }
 
     public void OnCursorTowards(InputValue input)
     {
-        bool inputBool = input.isPressed;
+        if (GameSystemController.Instance.CurrentGameState == GameSystemController.GameStates.GamePlay)
+        {
+            bool inputBool = input.isPressed;
 
-        if (inputBool)
-        {
-            towardsBool = true;
-        }
-        else
-        {
-            towardsBool = false;
+            if (inputBool)
+            {
+                towardsBool = true;
+            }
+            else
+            {
+                towardsBool = false;
+            }
         }
     }
 
     public void OnCursorAway(InputValue input)
     {
-        bool inputBool = input.isPressed;
+        if (GameSystemController.Instance.CurrentGameState == GameSystemController.GameStates.GamePlay)
+        {
+            bool inputBool = input.isPressed;
 
-        if (inputBool)
-        {
-            awayBool = true;
-        }
-        else
-        {
-            awayBool = false;
+            if (inputBool)
+            {
+                awayBool = true;
+            }
+            else
+            {
+                awayBool = false;
+            }
         }
     }
 
@@ -173,41 +196,58 @@ public class PlayerMovement : MonoBehaviour
 
     public void OnYeet()
     {
-        HelperMovement.HelperData data;
-        data.targetPosition = cursorObj.transform.position;
-        data.lookAtPosition = cursorObj.transform.position;
-        data.helperState = HelperMovement.HelperState.GotoTarget;
-
-        if (currentHelper != null)
+        if (GameSystemController.Instance.CurrentGameState == GameSystemController.GameStates.GamePlay)
         {
-            Debug.Log("Got a Helper!");
-            currentHelper.SendMessage("ClearHelperHolder");
-            currentHelper.SendMessage("SetTarget", data);
+            HelperMovement.HelperData data;
+            data.targetPosition = cursorObj.transform.position;
+            data.lookAtPosition = cursorObj.transform.position;
+            data.helperState = HelperMovement.HelperState.GotoTarget;
 
-            currentHelper = null;
+            if (currentHelper != null)
+            {
+                Debug.Log("Got a Helper!");
+                currentHelper.SendMessage("ClearHelperHolder");
+                currentHelper.SendMessage("SetTarget", data);
+
+                currentHelper = null;
+            }
         }
     }
 
     public void OnButtonNorth()
     {
-        Debug.Log("Button North");
-        
-        SelectHelper(2);
+        if (GameSystemController.Instance.CurrentGameState == GameSystemController.GameStates.GamePlay)
+        {
+            Debug.Log("Button North");
+
+            SelectHelper(2);
+        }
     }
 
     public void OnButtonSouth()
     {
-        SelectHelper(1);
+        if (GameSystemController.Instance.CurrentGameState == GameSystemController.GameStates.GamePlay)
+        {
+            SelectHelper(1);
+
+        }
     }
 
     public void OnButtonEast()
     {
-        SelectHelper(3);
+        if (GameSystemController.Instance.CurrentGameState == GameSystemController.GameStates.GamePlay)
+        {
+            SelectHelper(3);
+
+        }
     }
 
     public void OnButtonWest()
     {
-        SelectHelper(0);
+        if (GameSystemController.Instance.CurrentGameState == GameSystemController.GameStates.GamePlay)
+        {
+            SelectHelper(0);
+        }
     }
 
     private void SelectHelper(int sizeSelected)
@@ -235,5 +275,10 @@ public class PlayerMovement : MonoBehaviour
                 currentHelper.SendMessage("SetSelected", true);
             }
         }
+    }
+
+    private void OnStartButton()
+    {
+        GameSystemController.Instance.StartButtonPressed();
     }
 }

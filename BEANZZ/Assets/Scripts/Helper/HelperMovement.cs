@@ -22,6 +22,12 @@ public class HelperMovement : MonoBehaviour
         public HelperState helperState;
     }
 
+    public struct HelperPauseData
+    {
+        public Vector3 previousVelocity;
+        public NavMeshPath previousPath;
+    }
+
     private HelperData myHelperData;
     private Vector3 smoothVel = Vector3.zero;
     //private float smoothTime = 50.0f; //Used in old helper system
@@ -32,6 +38,7 @@ public class HelperMovement : MonoBehaviour
     [SerializeField] float targetTollerance = 0.05f;
 
     private NavMeshAgent myAgent;
+    private HelperPauseData myAgentPauseData;
 
     // Start is called before the first frame update
     void Start()
@@ -43,51 +50,58 @@ public class HelperMovement : MonoBehaviour
         transform.LookAt(myHelperData.lookAtPosition);
         myCollider = GetComponent<Collider>();
         myAgent = GetComponent<NavMeshAgent>();
+        myAgentPauseData.previousPath = myAgent.path;
+        myAgentPauseData.previousVelocity = myAgent.velocity;
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        switch (myHelperData.helperState)
+        if(GameSystemController.Instance.CurrentGameState == GameSystemController.GameStates.GamePlay)
         {
-            case HelperState.Idle:
-                this.gameObject.GetComponent<Rigidbody>().useGravity = true;
-                myHelperData.lookAtPosition = mainCam.transform.position;
-                transform.LookAt(myHelperData.lookAtPosition);
-                break;
-            case HelperState.FollowPlayer:
-                this.gameObject.GetComponent<Rigidbody>().useGravity = true;
-                transform.LookAt(new Vector3(myHelperData.lookAtPosition.x, transform.position.y, myHelperData.lookAtPosition.z));
-                myAgent.destination = myHelperData.targetPosition;
-                break;
-            case HelperState.GotoTarget:
-                this.gameObject.GetComponent<Rigidbody>().useGravity = true;
-                transform.LookAt(new Vector3(myHelperData.lookAtPosition.x, transform.position.y, myHelperData.lookAtPosition.z));
-                myAgent.destination = myHelperData.targetPosition;
-                if(Vector3.Distance(myHelperData.targetPosition, transform.position) < targetTollerance)
-                {
-                    myHelperData.helperState = HelperState.Idle;
-                }
-                break;
-            case HelperState.Selected:
-                myHelperData.lookAtPosition = mainCam.transform.position;
-                transform.LookAt(myHelperData.lookAtPosition);
-                this.gameObject.GetComponent<Rigidbody>().useGravity = false;
-                myAgent.destination = myHelperData.targetPosition;
-                transform.position = new Vector3(transform.position.x, myHelperHolder.transform.position.y + 1.5f, transform.position.z);
-                break;
-            default:
-                break;
+            switch (myHelperData.helperState)
+            {
+                case HelperState.Idle:
+                    this.gameObject.GetComponent<Rigidbody>().useGravity = true;
+                    myHelperData.lookAtPosition = mainCam.transform.position;
+                    transform.LookAt(myHelperData.lookAtPosition);
+                    break;
+                case HelperState.FollowPlayer:
+                    this.gameObject.GetComponent<Rigidbody>().useGravity = true;
+                    transform.LookAt(new Vector3(myHelperData.lookAtPosition.x, transform.position.y, myHelperData.lookAtPosition.z));
+                    myAgent.destination = myHelperData.targetPosition;
+                    break;
+                case HelperState.GotoTarget:
+                    this.gameObject.GetComponent<Rigidbody>().useGravity = true;
+                    transform.LookAt(new Vector3(myHelperData.lookAtPosition.x, transform.position.y, myHelperData.lookAtPosition.z));
+                    myAgent.destination = myHelperData.targetPosition;
+                    if (Vector3.Distance(myHelperData.targetPosition, transform.position) < targetTollerance)
+                    {
+                        myHelperData.helperState = HelperState.Idle;
+                    }
+                    break;
+                case HelperState.Selected:
+                    myHelperData.lookAtPosition = mainCam.transform.position;
+                    transform.LookAt(myHelperData.lookAtPosition);
+                    this.gameObject.GetComponent<Rigidbody>().useGravity = false;
+                    myAgent.destination = myHelperData.targetPosition;
+                    transform.position = new Vector3(transform.position.x, myHelperHolder.transform.position.y + 1.5f, transform.position.z);
+                    break;
+                default:
+                    break;
+            }
+
+            /*
+            //Old Helper movement system
+            transform.position = Vector3.SmoothDamp(transform.position, new Vector3(myHelperData.targetPosition.x, transform.position.y, myHelperData.targetPosition.z), ref smoothVel, smoothTime * Time.deltaTime);
+            if (smoothVel == Vector3.zero)
+            {
+                // have reached the target - do somthing?
+            }
+            */
         }
-        
-        /*
-        //Old Helper movement system
-        transform.position = Vector3.SmoothDamp(transform.position, new Vector3(myHelperData.targetPosition.x, transform.position.y, myHelperData.targetPosition.z), ref smoothVel, smoothTime * Time.deltaTime);
-        if (smoothVel == Vector3.zero)
-        {
-            // have reached the target - do somthing?
-        }
-        */
+
 
     }
 
@@ -131,4 +145,19 @@ public class HelperMovement : MonoBehaviour
     {
         return myHelperData.helperState;
     }
+
+   void PauseHelper()
+    {
+        myAgentPauseData.previousPath = myAgent.path;
+        myAgentPauseData.previousVelocity = myAgent.velocity;
+        myAgent.velocity = Vector3.zero;
+        myAgent.ResetPath();
+
+    }
+
+    void ResumeHelper()
+    {
+        myAgent.velocity = myAgentPauseData.previousVelocity;
+        myAgent.SetPath(myAgentPauseData.previousPath);
+    }    
 }
