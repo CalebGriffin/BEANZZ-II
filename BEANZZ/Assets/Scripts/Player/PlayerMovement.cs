@@ -12,7 +12,8 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] GameObject helperHolderObj;
 
-    [SerializeField] CinemachineFreeLook cinemachineFreeLook;
+    [SerializeField] CinemachineVirtualCamera cinemachineVirtualCamera;
+    private CinemachineOrbitalTransposer orbitalTransposer;
 
     [SerializeField] GameObject mainCamera;
 
@@ -34,13 +35,18 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask interactiveLayer;
 
     bool isLooking;
+    bool shouldBeMoving = false;
 
     Vector2 lookingVec;
+
+    Vector2 inputVec;
 
     Vector3 direction;
 
     bool towardsBool;
     bool awayBool;
+
+    float distToCursor;
 
     [SerializeField] float sensitivity;
 
@@ -52,6 +58,8 @@ public class PlayerMovement : MonoBehaviour
         animator = GetComponent<Animator>();
 
         controls = new PlayerControls();
+
+        orbitalTransposer = cinemachineVirtualCamera.GetCinemachineComponent<CinemachineOrbitalTransposer>();
     }
 
     void Awake()
@@ -67,25 +75,27 @@ public class PlayerMovement : MonoBehaviour
 
             if (animator.GetBool("isMoving") == true)
             {
+                Look();
                 Move();
             }
 
             if (isLooking == true)
             {
-                Look();
+                Rotate();
             }
 
             if (towardsBool)
             {
-                raycastDist += -9f * Time.deltaTime;
+                raycastDist = Mathf.Clamp(raycastDist - (15f * Time.deltaTime), 0, 35);
             }
 
             if (awayBool)
             {
-                raycastDist += +9f * Time.deltaTime;
+                raycastDist = Mathf.Clamp(raycastDist + (15f * Time.deltaTime), 0, 35);
             }
+
+            orbitalTransposer.m_RecenterToTargetHeading.m_enabled = shouldBeMoving;
         }
-        
     }
 
     private void FixedUpdate() 
@@ -103,15 +113,35 @@ public class PlayerMovement : MonoBehaviour
     }
         
 
-    public void OnMove(InputValue input)
+    public void OnMoveAndLook(InputValue input)
     {
-        Vector2 inputVec = input.Get<Vector2>();
+        inputVec = input.Get<Vector2>();
         if (GameSystemController.Instance.CurrentGameState == GameSystemController.GameStates.GamePlay)
         {
-            
-            direction = new Vector3(inputVec.x, 0f, inputVec.y);
+            direction = new Vector3(inputVec.x, 0f, 0f);
 
-            if (direction.magnitude >= 0.1f)
+            if (inputVec.y >= 0.8f)
+            {
+                awayBool = true;
+                shouldBeMoving = true;
+            } 
+            else if (inputVec.y >= 0.1f)
+            {
+                awayBool = true;
+            }
+            else if (inputVec.y <= -0.1f)
+            {
+                towardsBool = true;
+                shouldBeMoving = false;
+            }
+            else
+            {
+                towardsBool = false;
+                awayBool = false;
+                shouldBeMoving = false;
+            }
+
+            if (direction.magnitude >= 0.1f || shouldBeMoving)
             {
                 animator.SetBool("isMoving", true);
             }
@@ -119,12 +149,12 @@ public class PlayerMovement : MonoBehaviour
             {
                 animator.SetBool("isMoving", false);
             }
-            
         }
         else
         {
-            direction = new Vector3(inputVec.x, 0f, inputVec.y);
             animator.SetBool("isMoving", false);
+            isLooking = false;
+            shouldBeMoving = false;
         }
     }
 
@@ -145,53 +175,30 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void OnCursorTowards(InputValue input)
-    {
-        if (GameSystemController.Instance.CurrentGameState == GameSystemController.GameStates.GamePlay)
-        {
-            bool inputBool = input.isPressed;
-
-            if (inputBool)
-            {
-                towardsBool = true;
-            }
-            else
-            {
-                towardsBool = false;
-            }
-        }
-    }
-
-    public void OnCursorAway(InputValue input)
-    {
-        if (GameSystemController.Instance.CurrentGameState == GameSystemController.GameStates.GamePlay)
-        {
-            bool inputBool = input.isPressed;
-
-            if (inputBool)
-            {
-                awayBool = true;
-            }
-            else
-            {
-                awayBool = false;
-            }
-        }
-    }
-
-    public void Move()
+    public void Look()
     {
         targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + mainCamera.transform.eulerAngles.y;
         angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
         transform.rotation = Quaternion.Euler(0f, angle, 0f);
-        Vector3 moveDir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-        characterController.Move(moveDir.normalized * moveSpeed * Time.deltaTime);
     }
 
-    public void Look()
+    public void Move()
     {
-        cinemachineFreeLook.m_XAxis.Value += lookingVec.x * sensitivity * Time.deltaTime;
-        cinemachineFreeLook.m_YAxis.Value += lookingVec.y * Time.deltaTime;
+        if (shouldBeMoving)
+        {
+            distToCursor = Vector3.Distance(transform.position, cursorObj.transform.position);
+            direction.z = 1f * (distToCursor/35);
+        }
+        else
+        {
+            direction.z = 0f;
+        }
+        characterController.Move(transform.forward * direction.z * moveSpeed * Time.deltaTime);
+    }
+
+    public void Rotate()
+    {
+        orbitalTransposer.m_XAxis.Value += lookingVec.x * sensitivity * Time.deltaTime;
     }
 
     public void OnYeet()
@@ -218,8 +225,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (GameSystemController.Instance.CurrentGameState == GameSystemController.GameStates.GamePlay)
         {
-            Debug.Log("Button North");
-
             SelectHelper(2);
         }
     }
@@ -229,7 +234,6 @@ public class PlayerMovement : MonoBehaviour
         if (GameSystemController.Instance.CurrentGameState == GameSystemController.GameStates.GamePlay)
         {
             SelectHelper(1);
-
         }
     }
 
@@ -238,7 +242,6 @@ public class PlayerMovement : MonoBehaviour
         if (GameSystemController.Instance.CurrentGameState == GameSystemController.GameStates.GamePlay)
         {
             SelectHelper(3);
-
         }
     }
 

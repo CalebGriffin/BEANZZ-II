@@ -6,7 +6,7 @@
             "id": "b81cea57-dd45-476f-a74f-ed5ca8e3af07",
             "actions": [
                 {
-                    "name": "Move",
+                    "name": "MoveAndLook",
                     "type": "Value",
                     "id": "dac46707-6c19-4003-b5c1-d8a29c0afaaa",
                     "expectedControlType": "Vector2",
@@ -20,22 +20,6 @@
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
-                },
-                {
-                    "name": "Cursor Towards",
-                    "type": "PassThrough",
-                    "id": "e480a44d-ce80-4fac-b487-7875818e0ac7",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Press(behavior=2)"
-                },
-                {
-                    "name": "Cursor Away",
-                    "type": "PassThrough",
-                    "id": "f43b6469-26c6-4ba0-bd48-2c1efa07c45e",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "Press(behavior=2)"
                 },
                 {
                     "name": "Yeet",
@@ -94,18 +78,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Controller;All Controls",
-                    "action": "Move",
+                    "action": "MoveAndLook",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "2D Vector",
                     "id": "cbb80a74-c625-40a1-93c9-78440a05f987",
-                    "path": "2DVector",
+                    "path": "2DVector(mode=2)",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "MoveAndLook",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -116,7 +100,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard & Mouse",
-                    "action": "Move",
+                    "action": "MoveAndLook",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -127,7 +111,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard & Mouse",
-                    "action": "Move",
+                    "action": "MoveAndLook",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -138,7 +122,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard & Mouse",
-                    "action": "Move",
+                    "action": "MoveAndLook",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -149,18 +133,18 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard & Mouse",
-                    "action": "Move",
+                    "action": "MoveAndLook",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
                 {
                     "name": "2D Vector",
                     "id": "9e562b81-43c4-4588-b033-b5b7091edc20",
-                    "path": "2DVector",
+                    "path": "2DVector(mode=2)",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Move",
+                    "action": "MoveAndLook",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -171,7 +155,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard & Mouse;All Controls",
-                    "action": "Move",
+                    "action": "MoveAndLook",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -182,7 +166,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard & Mouse;All Controls",
-                    "action": "Move",
+                    "action": "MoveAndLook",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -193,7 +177,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard & Mouse;All Controls",
-                    "action": "Move",
+                    "action": "MoveAndLook",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -204,7 +188,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard & Mouse;All Controls",
-                    "action": "Move",
+                    "action": "MoveAndLook",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -216,50 +200,6 @@
                     "processors": "",
                     "groups": "All Controls;Controller",
                     "action": "Rotate",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "850838b9-f07f-451b-a46e-d46cb4c79093",
-                    "path": "<Gamepad>/leftShoulder",
-                    "interactions": "Press(behavior=2)",
-                    "processors": "",
-                    "groups": "Controller;All Controls",
-                    "action": "Cursor Towards",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "f006e18a-6c6b-4b97-9bdd-2a944bb86c95",
-                    "path": "<XInputController>/leftShoulder",
-                    "interactions": "Press(behavior=2)",
-                    "processors": "",
-                    "groups": "All Controls;Controller",
-                    "action": "Cursor Towards",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "f49fbb94-1536-4202-bdd1-48dd570f9726",
-                    "path": "<Gamepad>/rightShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Controller;All Controls",
-                    "action": "Cursor Away",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "eecd1998-f755-446b-90c2-3e69c68a9ba9",
-                    "path": "<XInputController>/rightShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Controller;All Controls",
-                    "action": "Cursor Away",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

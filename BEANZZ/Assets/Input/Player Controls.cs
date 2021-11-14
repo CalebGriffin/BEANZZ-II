@@ -19,7 +19,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
             ""id"": ""b81cea57-dd45-476f-a74f-ed5ca8e3af07"",
             ""actions"": [
                 {
-                    ""name"": ""Move"",
+                    ""name"": ""MoveAndLook"",
                     ""type"": ""Value"",
                     ""id"": ""dac46707-6c19-4003-b5c1-d8a29c0afaaa"",
                     ""expectedControlType"": ""Vector2"",
@@ -33,22 +33,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
-                },
-                {
-                    ""name"": ""Cursor Towards"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""e480a44d-ce80-4fac-b487-7875818e0ac7"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": ""Press(behavior=2)""
-                },
-                {
-                    ""name"": ""Cursor Away"",
-                    ""type"": ""PassThrough"",
-                    ""id"": ""f43b6469-26c6-4ba0-bd48-2c1efa07c45e"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": ""Press(behavior=2)""
                 },
                 {
                     ""name"": ""Yeet"",
@@ -107,18 +91,18 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Controller;All Controls"",
-                    ""action"": ""Move"",
+                    ""action"": ""MoveAndLook"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
                     ""name"": ""2D Vector"",
                     ""id"": ""cbb80a74-c625-40a1-93c9-78440a05f987"",
-                    ""path"": ""2DVector"",
+                    ""path"": ""2DVector(mode=2)"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""MoveAndLook"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -129,7 +113,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard & Mouse"",
-                    ""action"": ""Move"",
+                    ""action"": ""MoveAndLook"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -140,7 +124,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard & Mouse"",
-                    ""action"": ""Move"",
+                    ""action"": ""MoveAndLook"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -151,7 +135,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard & Mouse"",
-                    ""action"": ""Move"",
+                    ""action"": ""MoveAndLook"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -162,18 +146,18 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard & Mouse"",
-                    ""action"": ""Move"",
+                    ""action"": ""MoveAndLook"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
                     ""name"": ""2D Vector"",
                     ""id"": ""9e562b81-43c4-4588-b033-b5b7091edc20"",
-                    ""path"": ""2DVector"",
+                    ""path"": ""2DVector(mode=2)"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Move"",
+                    ""action"": ""MoveAndLook"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -184,7 +168,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard & Mouse;All Controls"",
-                    ""action"": ""Move"",
+                    ""action"": ""MoveAndLook"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -195,7 +179,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard & Mouse;All Controls"",
-                    ""action"": ""Move"",
+                    ""action"": ""MoveAndLook"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -206,7 +190,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard & Mouse;All Controls"",
-                    ""action"": ""Move"",
+                    ""action"": ""MoveAndLook"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -217,7 +201,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard & Mouse;All Controls"",
-                    ""action"": ""Move"",
+                    ""action"": ""MoveAndLook"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -229,50 +213,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""All Controls;Controller"",
                     ""action"": ""Rotate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""850838b9-f07f-451b-a46e-d46cb4c79093"",
-                    ""path"": ""<Gamepad>/leftShoulder"",
-                    ""interactions"": ""Press(behavior=2)"",
-                    ""processors"": """",
-                    ""groups"": ""Controller;All Controls"",
-                    ""action"": ""Cursor Towards"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""f006e18a-6c6b-4b97-9bdd-2a944bb86c95"",
-                    ""path"": ""<XInputController>/leftShoulder"",
-                    ""interactions"": ""Press(behavior=2)"",
-                    ""processors"": """",
-                    ""groups"": ""All Controls;Controller"",
-                    ""action"": ""Cursor Towards"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""f49fbb94-1536-4202-bdd1-48dd570f9726"",
-                    ""path"": ""<Gamepad>/rightShoulder"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Controller;All Controls"",
-                    ""action"": ""Cursor Away"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""eecd1998-f755-446b-90c2-3e69c68a9ba9"",
-                    ""path"": ""<XInputController>/rightShoulder"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Controller;All Controls"",
-                    ""action"": ""Cursor Away"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -387,10 +327,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
+        m_Player_MoveAndLook = m_Player.FindAction("MoveAndLook", throwIfNotFound: true);
         m_Player_Rotate = m_Player.FindAction("Rotate", throwIfNotFound: true);
-        m_Player_CursorTowards = m_Player.FindAction("Cursor Towards", throwIfNotFound: true);
-        m_Player_CursorAway = m_Player.FindAction("Cursor Away", throwIfNotFound: true);
         m_Player_Yeet = m_Player.FindAction("Yeet", throwIfNotFound: true);
         m_Player_ButtonNorth = m_Player.FindAction("ButtonNorth", throwIfNotFound: true);
         m_Player_ButtonSouth = m_Player.FindAction("ButtonSouth", throwIfNotFound: true);
@@ -446,10 +384,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     // Player
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
-    private readonly InputAction m_Player_Move;
+    private readonly InputAction m_Player_MoveAndLook;
     private readonly InputAction m_Player_Rotate;
-    private readonly InputAction m_Player_CursorTowards;
-    private readonly InputAction m_Player_CursorAway;
     private readonly InputAction m_Player_Yeet;
     private readonly InputAction m_Player_ButtonNorth;
     private readonly InputAction m_Player_ButtonSouth;
@@ -460,10 +396,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     {
         private @PlayerControls m_Wrapper;
         public PlayerActions(@PlayerControls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Move => m_Wrapper.m_Player_Move;
+        public InputAction @MoveAndLook => m_Wrapper.m_Player_MoveAndLook;
         public InputAction @Rotate => m_Wrapper.m_Player_Rotate;
-        public InputAction @CursorTowards => m_Wrapper.m_Player_CursorTowards;
-        public InputAction @CursorAway => m_Wrapper.m_Player_CursorAway;
         public InputAction @Yeet => m_Wrapper.m_Player_Yeet;
         public InputAction @ButtonNorth => m_Wrapper.m_Player_ButtonNorth;
         public InputAction @ButtonSouth => m_Wrapper.m_Player_ButtonSouth;
@@ -479,18 +413,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_PlayerActionsCallbackInterface != null)
             {
-                @Move.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                @Move.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
-                @Move.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMove;
+                @MoveAndLook.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveAndLook;
+                @MoveAndLook.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveAndLook;
+                @MoveAndLook.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveAndLook;
                 @Rotate.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotate;
                 @Rotate.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotate;
                 @Rotate.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotate;
-                @CursorTowards.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCursorTowards;
-                @CursorTowards.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCursorTowards;
-                @CursorTowards.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCursorTowards;
-                @CursorAway.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCursorAway;
-                @CursorAway.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCursorAway;
-                @CursorAway.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCursorAway;
                 @Yeet.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnYeet;
                 @Yeet.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnYeet;
                 @Yeet.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnYeet;
@@ -513,18 +441,12 @@ public class @PlayerControls : IInputActionCollection, IDisposable
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Move.started += instance.OnMove;
-                @Move.performed += instance.OnMove;
-                @Move.canceled += instance.OnMove;
+                @MoveAndLook.started += instance.OnMoveAndLook;
+                @MoveAndLook.performed += instance.OnMoveAndLook;
+                @MoveAndLook.canceled += instance.OnMoveAndLook;
                 @Rotate.started += instance.OnRotate;
                 @Rotate.performed += instance.OnRotate;
                 @Rotate.canceled += instance.OnRotate;
-                @CursorTowards.started += instance.OnCursorTowards;
-                @CursorTowards.performed += instance.OnCursorTowards;
-                @CursorTowards.canceled += instance.OnCursorTowards;
-                @CursorAway.started += instance.OnCursorAway;
-                @CursorAway.performed += instance.OnCursorAway;
-                @CursorAway.canceled += instance.OnCursorAway;
                 @Yeet.started += instance.OnYeet;
                 @Yeet.performed += instance.OnYeet;
                 @Yeet.canceled += instance.OnYeet;
@@ -576,10 +498,8 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     }
     public interface IPlayerActions
     {
-        void OnMove(InputAction.CallbackContext context);
+        void OnMoveAndLook(InputAction.CallbackContext context);
         void OnRotate(InputAction.CallbackContext context);
-        void OnCursorTowards(InputAction.CallbackContext context);
-        void OnCursorAway(InputAction.CallbackContext context);
         void OnYeet(InputAction.CallbackContext context);
         void OnButtonNorth(InputAction.CallbackContext context);
         void OnButtonSouth(InputAction.CallbackContext context);
