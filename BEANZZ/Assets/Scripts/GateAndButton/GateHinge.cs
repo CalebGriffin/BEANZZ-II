@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using Cinemachine;
 
 
 public class GateHinge : MonoBehaviour, DoorInterface //inherits DoorInterface
@@ -15,6 +15,7 @@ public class GateHinge : MonoBehaviour, DoorInterface //inherits DoorInterface
     }
 
     [SerializeField] private GameObject myGate;
+    [SerializeField] private CinemachineVirtualCamera myCam;
     [SerializeField] private GameObject[] myLocks = new GameObject[(int)GateState.NumOfStates];
 
 
@@ -32,13 +33,15 @@ public class GateHinge : MonoBehaviour, DoorInterface //inherits DoorInterface
 
     [SerializeField] bool oneWay = false;
     [SerializeField] private bool helperTriggered = false;
+    [SerializeField] private bool onlyPlayCutSceneOnce = true;
+    private bool cutScenePlayed = false;
 
 
     // Start is called before the first frame update
     void Awake()
     {
-        
 
+        cutScenePlayed = false;
         currentGateState = GateState.Closed;
         newGateState = GateState.Closed;
         closedRotation = Quaternion.LookRotation(myGate.transform.TransformDirection(closedDirection));
@@ -63,6 +66,12 @@ public class GateHinge : MonoBehaviour, DoorInterface //inherits DoorInterface
                     //if we are interupting the door closing, calculate how much time we need to open
                     timeElapsed = slerpDuration - timeElapsed;
                     currentGateState = newGateState;
+                    if(cutScenePlayed == false || onlyPlayCutSceneOnce == false)
+                    {
+                        cutScenePlayed = true;
+                        CameraDirector.Instance.SetCutCam(myCam);
+                        GameSystemController.Instance.NewGameState = GameSystemController.GameStates.PlayerToGateCutScene;
+                    }
                 }
                 
                 break;
@@ -88,9 +97,29 @@ public class GateHinge : MonoBehaviour, DoorInterface //inherits DoorInterface
         //therefore it is best to test that the expected slerp time has completed and then force the final value
         if (timeElapsed < slerpDuration)
         {
-            //spherically lerp (slerp) from the starting point to the target as defined in the switch case above
-            myGate.transform.rotation = Quaternion.Slerp(startRotation, targetRotation, timeElapsed / slerpDuration);
-            timeElapsed += Time.deltaTime;
+            if(GameSystemController.Instance.CurrentGameState == GameSystemController.GameStates.GamePlay)
+            {
+                //spherically lerp (slerp) from the starting point to the target as defined in the switch case above
+                ToggleLockActive(false);
+                myGate.transform.rotation = Quaternion.Slerp(startRotation, targetRotation, timeElapsed / slerpDuration);
+                timeElapsed += Time.deltaTime;
+            }
+            else if (GameSystemController.Instance.CurrentGameState == GameSystemController.GameStates.CutSceneLive)
+            {
+                //spherically lerp (slerp) from the starting point to the target as defined in the switch case above
+                ToggleLockActive(false);
+                myGate.transform.rotation = Quaternion.Slerp(startRotation, targetRotation, timeElapsed / slerpDuration);
+                timeElapsed += Time.deltaTime;
+                if (timeElapsed > slerpDuration)
+                {
+                    GameSystemController.Instance.NewGameState = GameSystemController.GameStates.GateToPlayerCutScene; //exit the cut scene
+                }
+            }
+            else
+            {
+                //Do nothing - game is paused or at a menu, etc.
+            }
+            
         }
         else
         {
@@ -102,28 +131,36 @@ public class GateHinge : MonoBehaviour, DoorInterface //inherits DoorInterface
             {
                 ToggleLockActive(true);
             }
+            
+            
+            
+
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if(helperTriggered)
+        if(GameSystemController.Instance.CurrentGameState == GameSystemController.GameStates.GamePlay)
         {
-            //Needs upgrading to detect last helper in group (use distance from player?)
-            if ((other.tag == "Helper") && (currentGateState == GateState.Open) && (oneWay))
+            if (helperTriggered)
             {
-                //close the door behind the player
-                CloseDoor();
+                //Needs upgrading to detect last helper in group (use distance from player?)
+                if ((other.tag == "Helper") && (currentGateState == GateState.Open) && (oneWay))
+                {
+                    //close the door behind the player
+                    CloseDoor();
+                }
+            }
+            else
+            {
+                if ((other.tag == "Player") && (currentGateState == GateState.Open) && (oneWay))
+                {
+                    //close the door behind the player
+                    CloseDoor();
+                }
             }
         }
-        else
-        {
-            if ((other.tag == "Player") && (currentGateState == GateState.Open) && (oneWay))
-            {
-                //close the door behind the player
-                CloseDoor();
-            }
-        }
+        
         
     }
 
@@ -154,7 +191,7 @@ public class GateHinge : MonoBehaviour, DoorInterface //inherits DoorInterface
 
     public void UnlockDoor()
     {
-        ToggleLockActive(false);
+        
     }
 
     public void SetLockMaterial(Material mat)

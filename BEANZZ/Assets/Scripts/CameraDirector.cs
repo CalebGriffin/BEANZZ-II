@@ -7,8 +7,8 @@ public class CameraDirector : MonoBehaviour
 {
     public enum CameraList
     {
-        MenuCam = 0,
-        FollowCam,
+        //MenuCam = 0,
+        FollowCam = 0,
         CutSceneCam,
         NumOfCams
     }
@@ -20,7 +20,8 @@ public class CameraDirector : MonoBehaviour
         NumOfPriorities
     }
 
-    [SerializeField] private CinemachineVirtualCamera[] cameraList = new CinemachineVirtualCamera[(int)CameraList.NumOfCams];
+    [SerializeField] private CinemachineBrain cameraBrain;
+    [SerializeField] private CinemachineVirtualCamera[] cameraList = new CinemachineVirtualCamera[(int)CameraList.NumOfCams] {null, null };
 
     private static CameraDirector instance;
     
@@ -39,7 +40,7 @@ public class CameraDirector : MonoBehaviour
 
     void Awake()
     {
-        SetCamera(CameraList.MenuCam);
+        SetCamera(CameraList.FollowCam);
 
     }
 
@@ -49,20 +50,46 @@ public class CameraDirector : MonoBehaviour
         
     }
 
+    public void SetCutCam(CinemachineVirtualCamera vCam)
+    {
+        cameraList[(int)CameraList.CutSceneCam] = vCam;
+        SetCamera(CameraList.CutSceneCam);
+    }
+
     public void SetCamera(CameraList newCam)
     {
-        for (int i = (int)CameraList.MenuCam; i < (int)CameraList.NumOfCams; i++)
+        for (int i = 0; i < (int)CameraList.NumOfCams; i++)
         {
-            cameraList[i].Priority = (i == (int)newCam) ? (int)CameraPriority.High : (int)CameraPriority.Low;
+            if(cameraList[i] != null)
+            {
+                cameraList[i].Priority = (i == (int)newCam) ? (int)CameraPriority.High : (int)CameraPriority.Low;
+            }
+            else
+            {
+                Debug.LogError("Error: cameraList[" + i.ToString() + "] is null - should be a virtual cam");
+            }
+            
         }
     }
 
     public void SetNewPlayer(GameObject player)
     {
-        for (int i = (int)CameraList.MenuCam; i < (int)CameraList.NumOfCams; i++)
+        for (int i = 0; i < (int)CameraList.NumOfCams; i++)
         {
-            cameraList[i].Follow = player.transform;
-            cameraList[i].LookAt = player.transform;
+            if(cameraList[i] != null)
+            { 
+                cameraList[i].Follow = player.transform;
+                cameraList[i].LookAt = player.transform;
+            }
+            else
+            {
+                Debug.LogError("Error: cameraList[" + i.ToString() + "] is null - should be a virtual cam");
+            }
         }
+    }
+
+    public bool GetIsLive(CameraList vCam)
+    {
+        return CinemachineCore.Instance.IsLive(cameraList[(int)vCam]);
     }
 }

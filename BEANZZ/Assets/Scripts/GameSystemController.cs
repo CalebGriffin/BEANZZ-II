@@ -11,7 +11,9 @@ public class GameSystemController : MonoBehaviour
         GamePlay,
         GamePause,
         GameOver,
-        CutScene,
+        PlayerToGateCutScene,
+        GateToPlayerCutScene,
+        CutSceneLive,
         NumOfGameStates
     }
 
@@ -57,6 +59,7 @@ public class GameSystemController : MonoBehaviour
         pauseCanvas.enabled = false;
         currentGameState = GameStates.GamePlay;
         newGameState = currentGameState;
+        CameraDirector.Instance.SetCamera(CameraDirector.CameraList.FollowCam);
     }
 
     // Start is called before the first frame update
@@ -75,12 +78,26 @@ public class GameSystemController : MonoBehaviour
 
                 break;
             case GameStates.GamePlay:
+                
                 break;
             case GameStates.GamePause:
                 break;
             case GameStates.GameOver:
                 break;
-            case GameStates.CutScene:
+            case GameStates.PlayerToGateCutScene:
+                if (!CameraDirector.Instance.GetIsLive(CameraDirector.CameraList.FollowCam))
+                
+                {
+                    NewGameState = GameStates.CutSceneLive;
+                }
+                break;
+            case GameStates.GateToPlayerCutScene:
+                if (!CameraDirector.Instance.GetIsLive(CameraDirector.CameraList.CutSceneCam))
+                {
+                    NewGameState = GameStates.GamePlay;
+                }
+                break;
+            case GameStates.CutSceneLive:
                 break;
             case GameStates.NumOfGameStates: //No break so flows into default
             default:
@@ -131,6 +148,16 @@ public class GameSystemController : MonoBehaviour
                     pauseCanvas.enabled = true;
                     currentGameState = NewGameState;
                 }
+                else if(NewGameState == GameStates.PlayerToGateCutScene)
+                {
+                    GameObject[] helpers;
+                    helpers = GameObject.FindGameObjectsWithTag("Helper");
+                    foreach (GameObject helper in helpers)
+                    {
+                        helper.SendMessage("PauseHelper");
+                    }
+                    currentGameState = NewGameState;
+                }
                 else
                 {
                     NewGameState = currentGameState;
@@ -174,14 +201,52 @@ public class GameSystemController : MonoBehaviour
                     NewGameState = currentGameState;
                 }
                 break;
-            case GameStates.CutScene:
+            case GameStates.PlayerToGateCutScene:
+                if(NewGameState == GameStates.CutSceneLive)
+                {
+                    
+                    currentGameState = NewGameState;
+                    
+                }
+                else
+                {
+                    NewGameState = currentGameState;
+                }
+                break;
+            case GameStates.GateToPlayerCutScene:
+                if (NewGameState == GameStates.GamePlay)
+                {
+                    GameObject[] helpers;
+                    helpers = GameObject.FindGameObjectsWithTag("Helper");
+                    foreach (GameObject helper in helpers)
+                    {
+                        helper.SendMessage("ResumeHelper");
+                    }
+                    currentGameState = NewGameState;
+                }
+                else
+                {
+                    NewGameState = currentGameState;
+                }
+                break;
+            case GameStates.CutSceneLive:
+                if (NewGameState == GameStates.GateToPlayerCutScene)
+                {
+                    CameraDirector.Instance.SetCamera(CameraDirector.CameraList.FollowCam);
+                    currentGameState = NewGameState;
 
+                }
+                else
+                {
+                    NewGameState = currentGameState;
+                }
                 break;
             case GameStates.NumOfGameStates:
                 break;
             default:
                 break;
         }
+        //Debug.Log("Current Game State: " + currentGameState.ToString());
     }
 
     public void RetryButtonPress()
@@ -207,6 +272,7 @@ public class GameSystemController : MonoBehaviour
         }
     }
 
+
     public void StartButtonPressed()
     {
 
@@ -224,13 +290,15 @@ public class GameSystemController : MonoBehaviour
             case GameStates.GameOver:
                 
                 break;
-            case GameStates.CutScene:
+            case GameStates.PlayerToGateCutScene:
+                break;
+            case GameStates.GateToPlayerCutScene:
+                break;
+            case GameStates.CutSceneLive:
                 break;
             case GameStates.NumOfGameStates: //removed break so that it will flow to default
             default:
                 break;
         }
-    }
-
-    
+    }    
 }
