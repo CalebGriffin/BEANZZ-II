@@ -19,6 +19,7 @@ public class GameSystemController : MonoBehaviour
 
 
     [SerializeField] Canvas pauseCanvas;
+    [SerializeField] Canvas inPlayCanvas;
 
     private GameStates newGameState = GameStates.Menu;
     private GameStates currentGameState = GameStates.Menu;
@@ -57,7 +58,8 @@ public class GameSystemController : MonoBehaviour
     private void Awake()
     {
         pauseCanvas.enabled = false;
-        currentGameState = GameStates.GamePlay;
+        inPlayCanvas.enabled = false;
+        currentGameState = GameStates.Menu;
         newGameState = currentGameState;
         CameraDirector.Instance.SetCamera(CameraDirector.CameraList.FollowCam);
     }
@@ -75,7 +77,7 @@ public class GameSystemController : MonoBehaviour
         switch (currentGameState)
         {
             case GameStates.Menu:
-
+                NewGameState = GameStates.GamePlay;
                 break;
             case GameStates.GamePlay:
                 
@@ -117,7 +119,8 @@ public class GameSystemController : MonoBehaviour
                 //Check transitions and execute transition actions
                 if (NewGameState == GameStates.GamePlay)
                 {
-                    
+                    ButtonUIManager.Instance.ResetAllButtons();
+                    inPlayCanvas.enabled = true;
                     //complete the transition
                     currentGameState = NewGameState;
                 }

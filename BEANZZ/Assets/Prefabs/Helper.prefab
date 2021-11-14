@@ -167,9 +167,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sizeIndex: 3
   materials:
+  - {fileID: 2100000, guid: 18c60a653f2ffc64d89e2baddfecc771, type: 2}
+  - {fileID: 2100000, guid: 51b98683a771f4736bf60b5af10f17f5, type: 2}
   - {fileID: 2100000, guid: 29e787a65e07b4347a5228dc1550c229, type: 2}
   - {fileID: 2100000, guid: 4454b2a5c5da01f418105f101feb8ab0, type: 2}
-  - {fileID: 2100000, guid: 18c60a653f2ffc64d89e2baddfecc771, type: 2}
   resizeFX: {fileID: 7360253917239596022, guid: 1ff806b7c69064748beeaf1a00c09d5a,
     type: 3}
 --- !u!114 &-4110584533180668603

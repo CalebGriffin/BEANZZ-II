@@ -215,7 +215,7 @@ public class PlayerMovement : MonoBehaviour
                 Debug.Log("Got a Helper!");
                 currentHelper.SendMessage("ClearHelperHolder");
                 currentHelper.SendMessage("SetTarget", data);
-
+                ButtonUIManager.Instance.ResetAllButtons();
                 currentHelper = null;
             }
         }
@@ -261,10 +261,12 @@ public class PlayerMovement : MonoBehaviour
             if (currentHelper.GetComponent<Resize>().sizeIndex == sizeSelected)
             {
                 currentHelper = null;
+                ButtonUIManager.Instance.ResetAllButtons();
             }
             else
             {
                 currentHelper = null;
+                ButtonUIManager.Instance.ResetAllButtons();
                 SelectHelper(sizeSelected);
             }
         }
@@ -276,6 +278,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 Debug.Log("Selected");
                 currentHelper.SendMessage("SetSelected", true);
+                ButtonUIManager.Instance.SelectButton((ButtonUIManager.DiamondButtonMap)sizeSelected);
             }
         }
     }
