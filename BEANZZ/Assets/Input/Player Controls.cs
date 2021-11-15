@@ -81,6 +81,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""Escape"",
+                    ""type"": ""Button"",
+                    ""id"": ""852ba8bb-5b0a-4161-8c9d-ecc9e9d88a5d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press""
                 }
             ],
             ""bindings"": [
@@ -303,6 +311,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""action"": ""StartButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b049fe0c-d8ab-4eeb-b257-b6f1af45c1d5"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard & Mouse;All Controls"",
+                    ""action"": ""Escape"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -357,6 +376,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Player_ButtonEast = m_Player.FindAction("ButtonEast", throwIfNotFound: true);
         m_Player_ButtonWest = m_Player.FindAction("ButtonWest", throwIfNotFound: true);
         m_Player_StartButton = m_Player.FindAction("StartButton", throwIfNotFound: true);
+        m_Player_Escape = m_Player.FindAction("Escape", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -414,6 +434,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_ButtonEast;
     private readonly InputAction m_Player_ButtonWest;
     private readonly InputAction m_Player_StartButton;
+    private readonly InputAction m_Player_Escape;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -426,6 +447,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @ButtonEast => m_Wrapper.m_Player_ButtonEast;
         public InputAction @ButtonWest => m_Wrapper.m_Player_ButtonWest;
         public InputAction @StartButton => m_Wrapper.m_Player_StartButton;
+        public InputAction @Escape => m_Wrapper.m_Player_Escape;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -459,6 +481,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @StartButton.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStartButton;
                 @StartButton.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStartButton;
                 @StartButton.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnStartButton;
+                @Escape.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEscape;
+                @Escape.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEscape;
+                @Escape.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEscape;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -487,6 +512,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @StartButton.started += instance.OnStartButton;
                 @StartButton.performed += instance.OnStartButton;
                 @StartButton.canceled += instance.OnStartButton;
+                @Escape.started += instance.OnEscape;
+                @Escape.performed += instance.OnEscape;
+                @Escape.canceled += instance.OnEscape;
             }
         }
     }
@@ -528,5 +556,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnButtonEast(InputAction.CallbackContext context);
         void OnButtonWest(InputAction.CallbackContext context);
         void OnStartButton(InputAction.CallbackContext context);
+        void OnEscape(InputAction.CallbackContext context);
     }
 }

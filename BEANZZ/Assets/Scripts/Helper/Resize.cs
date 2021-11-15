@@ -46,6 +46,7 @@ public class Resize : MonoBehaviour
         }
 
     }
+    
 
     void ResizeHelper()
     {

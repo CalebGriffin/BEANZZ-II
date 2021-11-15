@@ -7,8 +7,8 @@ public class CameraDirector : MonoBehaviour
 {
     public enum CameraList
     {
-        //MenuCam = 0,
-        FollowCam = 0,
+        MenuCam = 0,
+        FollowCam,
         CutSceneCam,
         NumOfCams
     }
@@ -21,7 +21,7 @@ public class CameraDirector : MonoBehaviour
     }
 
     [SerializeField] private CinemachineBrain cameraBrain;
-    [SerializeField] private CinemachineVirtualCamera[] cameraList = new CinemachineVirtualCamera[(int)CameraList.NumOfCams] {null, null };
+    [SerializeField] private CinemachineVirtualCamera[] cameraList = new CinemachineVirtualCamera[(int)CameraList.NumOfCams] {null, null, null };
 
     private static CameraDirector instance;
     
@@ -40,7 +40,7 @@ public class CameraDirector : MonoBehaviour
 
     void Awake()
     {
-        SetCamera(CameraList.FollowCam);
+        SetCamera(CameraList.MenuCam);
 
     }
 

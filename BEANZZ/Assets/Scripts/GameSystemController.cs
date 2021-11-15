@@ -20,12 +20,15 @@ public class GameSystemController : MonoBehaviour
 
     [SerializeField] Canvas pauseCanvas;
     [SerializeField] Canvas inPlayCanvas;
+    [SerializeField] Canvas menuCanvas;
 
     private GameStates newGameState = GameStates.Menu;
     private GameStates currentGameState = GameStates.Menu;
     private static GameSystemController instance;
 
-    
+    private float fadeTime = 2.5f;
+    private bool startButtonPressed = false;
+    private bool startButtonLatched = false;
 
     public static GameSystemController Instance
     {
@@ -59,6 +62,7 @@ public class GameSystemController : MonoBehaviour
     {
         pauseCanvas.enabled = false;
         inPlayCanvas.enabled = false;
+        menuCanvas.enabled = true;
         currentGameState = GameStates.Menu;
         newGameState = currentGameState;
         CameraDirector.Instance.SetCamera(CameraDirector.CameraList.FollowCam);
@@ -76,8 +80,23 @@ public class GameSystemController : MonoBehaviour
         //Things that happen repeatidly per state go here
         switch (currentGameState)
         {
-            case GameStates.Menu:
-                NewGameState = GameStates.GamePlay;
+            case GameStates.Menu:                
+                if(startButtonPressed && !startButtonLatched)
+                {
+                    startButtonLatched = true;
+                    StartCoroutine(FadeCanvas(menuCanvas));
+                    CameraDirector.Instance.SetCamera(CameraDirector.CameraList.FollowCam);
+                }
+                if(startButtonLatched && menuCanvas.GetComponent<CanvasGroup>().alpha == 0)
+                {
+                    //CameraDirector.Instance.SetCamera(CameraDirector.CameraList.FollowCam);
+                }
+                if(startButtonLatched && !CameraDirector.Instance.GetIsLive(CameraDirector.CameraList.MenuCam))
+                {
+                    startButtonPressed = false;
+                    startButtonLatched = false;
+                    NewGameState = GameStates.GamePlay;
+                }
                 break;
             case GameStates.GamePlay:
                 
@@ -121,12 +140,14 @@ public class GameSystemController : MonoBehaviour
                 {
                     ButtonUIManager.Instance.ResetAllButtons();
                     inPlayCanvas.enabled = true;
+
                     //complete the transition
                     currentGameState = NewGameState;
                 }
                 else
                 {
                     // no valid transitions
+                    
                     NewGameState = currentGameState;
                 }
 
@@ -282,7 +303,7 @@ public class GameSystemController : MonoBehaviour
         switch (currentGameState)
         {
             case GameStates.Menu:
-                NewGameState = GameStates.GamePlay;
+                startButtonPressed = true;
                 break;
             case GameStates.GamePlay:
                 NewGameState = GameStates.GamePause;
@@ -303,5 +324,27 @@ public class GameSystemController : MonoBehaviour
             default:
                 break;
         }
-    }    
+    }
+
+    private IEnumerator FadeCanvas(Canvas canvas)
+    {
+        CanvasGroup canvasGroup = canvas.GetComponent<CanvasGroup>();
+
+        float rate = 1.0f / fadeTime;
+
+        int startAlpha = 1;
+        int endAlpha = 0;
+
+        float progress = 0.0f;
+
+        while (progress < 1.0)
+        {
+            canvasGroup.alpha = Mathf.Lerp(startAlpha, endAlpha, progress);
+            progress += rate * Time.deltaTime;
+
+            yield return null;
+        }
+        canvasGroup.alpha = endAlpha;
+        yield return new WaitForSeconds(fadeTime);
+    }
 }

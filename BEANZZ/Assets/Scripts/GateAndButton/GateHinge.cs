@@ -144,8 +144,18 @@ public class GateHinge : MonoBehaviour, DoorInterface //inherits DoorInterface
         {
             if (helperTriggered)
             {
+
+                if(other.tag == "Player")
+                {
+                    if((other.GetComponentInChildren<HelperHolderSystem>().GetNumberOfHelpers() == 0) && (currentGateState == GateState.Open) && (oneWay))
+                    {
+                        
+                        //close the door behind the player - they don't have any helpers
+                        CloseDoor();
+                    }
+                }
                 //Needs upgrading to detect last helper in group (use distance from player?)
-                if ((other.tag == "Helper") && (currentGateState == GateState.Open) && (oneWay))
+                else if ((other.tag == "Helper") && (currentGateState == GateState.Open) && (oneWay))
                 {
                     //close the door behind the player
                     CloseDoor();

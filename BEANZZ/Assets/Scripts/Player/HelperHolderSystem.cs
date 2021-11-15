@@ -92,4 +92,9 @@ public class HelperHolderSystem : MonoBehaviour
     {
         helpers.Remove(helperToRemove);
     }
+
+    public int GetNumberOfHelpers()
+    {
+        return helpers.Count;
+    }
 }

@@ -288,4 +288,10 @@ public class PlayerMovement : MonoBehaviour
     {
         GameSystemController.Instance.StartButtonPressed();
     }
+
+    private void OnEscape()
+    {
+        Debug.Log("QUIT!");
+        Application.Quit();
+    }
 }
