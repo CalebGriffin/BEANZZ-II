@@ -30,7 +30,7 @@ public class PlayerMovement : MonoBehaviour
     float targetAngle;
     float angle;
 
-    float raycastDist = 30;
+    float raycastDist = 15;
     RaycastHit hit;
     public LayerMask interactiveLayer;
 
@@ -47,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
     bool awayBool;
 
     float distToCursor;
+    [SerializeField] float raycastDistMax = 30;
 
     [SerializeField] float sensitivity;
 
@@ -86,12 +87,12 @@ public class PlayerMovement : MonoBehaviour
 
             if (towardsBool)
             {
-                raycastDist = Mathf.Clamp(raycastDist - (15f * Time.deltaTime), 0, 35);
+                raycastDist = Mathf.Clamp(raycastDist - (15f * Time.deltaTime), 0, raycastDistMax);
             }
 
             if (awayBool)
             {
-                raycastDist = Mathf.Clamp(raycastDist + (15f * Time.deltaTime), 0, 35);
+                raycastDist = Mathf.Clamp(raycastDist + (15f * Time.deltaTime), 0, raycastDistMax);
             }
 
             orbitalTransposer.m_RecenterToTargetHeading.m_enabled = shouldBeMoving;
@@ -107,7 +108,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            cursorObj.transform.localPosition = new Vector3(0f, 0f, raycastDist);
+            cursorObj.transform.localPosition = new Vector3(0f, 0f, raycastDist * 2);
             Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 2, transform.position.z), transform.TransformDirection(Vector3.forward) * raycastDist, Color.blue);
         }
     }
@@ -187,7 +188,7 @@ public class PlayerMovement : MonoBehaviour
         if (shouldBeMoving)
         {
             distToCursor = Vector3.Distance(transform.position, cursorObj.transform.position);
-            direction.z = 1f * (distToCursor/35);
+            direction.z = 1f * (distToCursor/raycastDistMax);
         }
         else
         {

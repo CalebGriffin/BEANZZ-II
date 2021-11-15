@@ -92,6 +92,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7195209417432126335}
   - component: {fileID: 7195209417432126334}
+  - component: {fileID: 8559668872399703468}
   m_Layer: 8
   m_Name: UpSizer
   m_TagString: Resizer
@@ -128,6 +129,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2, y: 1, z: 2}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!65 &8559668872399703468
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7195209417432126305}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 2, z: 2}
+  m_Center: {x: 0, y: 2, z: 0}
 --- !u!1 &7195209417452285934
 GameObject:
   m_ObjectHideFlags: 0

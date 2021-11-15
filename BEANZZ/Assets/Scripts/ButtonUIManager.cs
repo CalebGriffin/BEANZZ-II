@@ -20,6 +20,7 @@ public class ButtonUIManager : MonoBehaviour
     [SerializeField] private Vector3 selectedScale = new Vector3(1.3f, 1.3f, 1.0f);
     [SerializeField] private Vector3 unselectedScale = new Vector3(1.0f, 1.0f, 1.0f);
     [SerializeField] private Image[] diamond = new Image[(int)DiamondButtonMap.NumOfButtons];
+    [SerializeField] private GameObject throwButton;
 
     private static ButtonUIManager instance = null;
 
@@ -37,6 +38,8 @@ public class ButtonUIManager : MonoBehaviour
 
     public void ResetAllButtons()
     {
+        throwButton.SetActive(false);
+
         for (int i = 0; i < (int)DiamondButtonMap.NumOfButtons; i++)
         {
             SetButtonAlphaAndScale((DiamondButtonMap)i, waitingAlpha, unselectedScale);
@@ -45,6 +48,7 @@ public class ButtonUIManager : MonoBehaviour
 
     public void SelectButton(DiamondButtonMap buttonLocation)
     {
+
         if (buttonLocation < DiamondButtonMap.NumOfButtons)
         {
             ResetAllButtons();
@@ -53,6 +57,7 @@ public class ButtonUIManager : MonoBehaviour
                 if (i == (int)buttonLocation)
                 {
                     SetButtonAlphaAndScale((DiamondButtonMap)i, selectedAlpha, selectedScale);
+                    throwButton.SetActive(true);
                 }
                 else
                 {
@@ -60,8 +65,6 @@ public class ButtonUIManager : MonoBehaviour
                 }
             }
         }
-
-
     }
 
     private void SetButtonAlphaAndScale(DiamondButtonMap buttonLocation, float alpha, Vector3 scale)
