@@ -89,6 +89,14 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press""
+                },
+                {
+                    ""name"": ""Collect"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""fe2bc89b-45de-43d9-9afa-8680458bb5e3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Press(behavior=2)""
                 }
             ],
             ""bindings"": [
@@ -314,12 +322,45 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""0c428d89-f2b8-4c3d-bf52-c44ee658a575"",
+                    ""path"": ""<HID::ShanWan USB Gamepad>/button10"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller;All Controls"",
+                    ""action"": ""StartButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""752e8612-8c7e-4183-8469-28d4c9b3c3a3"",
+                    ""path"": ""<HID::ShanWan Gioteck PS3 2.4G Wireless Controller>/button10"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller;All Controls"",
+                    ""action"": ""StartButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""b049fe0c-d8ab-4eeb-b257-b6f1af45c1d5"",
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard & Mouse;All Controls"",
                     ""action"": ""Escape"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8c414b51-0b2f-434a-a556-7e9a5abbb459"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller;All Controls"",
+                    ""action"": ""Collect"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -377,6 +418,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         m_Player_ButtonWest = m_Player.FindAction("ButtonWest", throwIfNotFound: true);
         m_Player_StartButton = m_Player.FindAction("StartButton", throwIfNotFound: true);
         m_Player_Escape = m_Player.FindAction("Escape", throwIfNotFound: true);
+        m_Player_Collect = m_Player.FindAction("Collect", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -435,6 +477,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_ButtonWest;
     private readonly InputAction m_Player_StartButton;
     private readonly InputAction m_Player_Escape;
+    private readonly InputAction m_Player_Collect;
     public struct PlayerActions
     {
         private @PlayerControls m_Wrapper;
@@ -448,6 +491,7 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         public InputAction @ButtonWest => m_Wrapper.m_Player_ButtonWest;
         public InputAction @StartButton => m_Wrapper.m_Player_StartButton;
         public InputAction @Escape => m_Wrapper.m_Player_Escape;
+        public InputAction @Collect => m_Wrapper.m_Player_Collect;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -484,6 +528,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Escape.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEscape;
                 @Escape.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEscape;
                 @Escape.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEscape;
+                @Collect.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCollect;
+                @Collect.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCollect;
+                @Collect.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnCollect;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -515,6 +562,9 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 @Escape.started += instance.OnEscape;
                 @Escape.performed += instance.OnEscape;
                 @Escape.canceled += instance.OnEscape;
+                @Collect.started += instance.OnCollect;
+                @Collect.performed += instance.OnCollect;
+                @Collect.canceled += instance.OnCollect;
             }
         }
     }
@@ -557,5 +607,6 @@ public class @PlayerControls : IInputActionCollection, IDisposable
         void OnButtonWest(InputAction.CallbackContext context);
         void OnStartButton(InputAction.CallbackContext context);
         void OnEscape(InputAction.CallbackContext context);
+        void OnCollect(InputAction.CallbackContext context);
     }
 }

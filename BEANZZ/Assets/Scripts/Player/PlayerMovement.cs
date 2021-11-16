@@ -7,6 +7,7 @@ using Cinemachine;
 public class PlayerMovement : MonoBehaviour
 {
     private CharacterController characterController;
+    private Renderer meshRenderer;
 
     private GameObject currentHelper = null;
 
@@ -18,6 +19,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] GameObject mainCamera;
 
     [SerializeField] GameObject cursorObj;
+    [SerializeField] Material cursorMat;
+    [SerializeField] Material cursorCollectMat;
 
     [SerializeField] private Animator animator;
 
@@ -30,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
     float targetAngle;
     float angle;
 
-    float raycastDist = 15;
+    float raycastDist = 5;
     RaycastHit hit;
     public LayerMask interactiveLayer;
 
@@ -51,6 +54,8 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] float sensitivity;
 
+    [SerializeField] LineRenderer lineRenderer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -61,6 +66,8 @@ public class PlayerMovement : MonoBehaviour
         controls = new PlayerControls();
 
         orbitalTransposer = cinemachineVirtualCamera.GetCinemachineComponent<CinemachineOrbitalTransposer>();
+
+        meshRenderer = cursorObj.GetComponent<Renderer>();
     }
 
     void Awake()
@@ -70,6 +77,11 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        var points = new Vector3[2];
+        points[0] = new Vector3(0f, 2f, 0f);
+        points[1] = cursorObj.transform.localPosition;
+        lineRenderer.SetPositions(points);
+
         if (GameSystemController.Instance.CurrentGameState == GameSystemController.GameStates.GamePlay)
         {
             characterController.SimpleMove(Vector3.down * 9.8f * Time.deltaTime);
@@ -101,10 +113,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate() 
     {
-        if (Physics.SphereCast(new Vector3(transform.position.x, transform.position.y + 2, transform.position.z), raycastDist / 25f, transform.forward, out hit, raycastDist, interactiveLayer))
+        if (Physics.SphereCast(new Vector3(transform.position.x, transform.position.y, transform.position.z), raycastDist / 25f, transform.forward, out hit, raycastDist, interactiveLayer))
         {
             cursorObj.transform.position = hit.collider.gameObject.transform.position;
-            Debug.DrawRay(new Vector3(transform.position.x, transform.position.y + 2, transform.position.z), transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
+            Debug.DrawRay(new Vector3(transform.position.x, transform.position.y, transform.position.z), transform.TransformDirection(Vector3.forward) * hit.distance, Color.yellow);
         }
         else
         {
@@ -126,11 +138,11 @@ public class PlayerMovement : MonoBehaviour
                 awayBool = true;
                 shouldBeMoving = true;
             } 
-            else if (inputVec.y >= 0.1f)
+            else if (inputVec.y >= 0.2f)
             {
                 awayBool = true;
             }
-            else if (inputVec.y <= -0.1f)
+            else if (inputVec.y <= -0.2f)
             {
                 towardsBool = true;
                 shouldBeMoving = false;
@@ -178,9 +190,12 @@ public class PlayerMovement : MonoBehaviour
 
     public void Look()
     {
-        targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + mainCamera.transform.eulerAngles.y;
-        angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-        transform.rotation = Quaternion.Euler(0f, angle, 0f);
+        if (GameSystemController.Instance.CurrentGameState == GameSystemController.GameStates.GamePlay)
+        {
+            targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + mainCamera.transform.eulerAngles.y;
+            angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+        }
     }
 
     public void Move()
@@ -188,7 +203,8 @@ public class PlayerMovement : MonoBehaviour
         if (shouldBeMoving)
         {
             distToCursor = Vector3.Distance(transform.position, cursorObj.transform.position);
-            direction.z = 1f * (distToCursor/raycastDistMax);
+            //direction.z = 1f * (distToCursor/raycastDistMax);
+            direction.z = 1f * inputVec.y;
         }
         else
         {
@@ -199,7 +215,10 @@ public class PlayerMovement : MonoBehaviour
 
     public void Rotate()
     {
-        orbitalTransposer.m_XAxis.Value += lookingVec.x * sensitivity * Time.deltaTime;
+        if (GameSystemController.Instance.CurrentGameState == GameSystemController.GameStates.GamePlay)
+        {
+            orbitalTransposer.m_XAxis.Value += lookingVec.x * sensitivity * Time.deltaTime;
+        }
     }
 
     public void OnYeet()
@@ -218,6 +237,29 @@ public class PlayerMovement : MonoBehaviour
                 currentHelper.SendMessage("SetTarget", data);
                 ButtonUIManager.Instance.ResetAllButtons();
                 currentHelper = null;
+            }
+        }
+    }
+
+    public void OnCollect(InputValue input)
+    {
+        if (GameSystemController.Instance.CurrentGameState == GameSystemController.GameStates.GamePlay)
+        {
+            bool inputBool = input.isPressed;
+
+            if (inputBool)
+            {
+                meshRenderer.material = cursorCollectMat;
+                lineRenderer.material = cursorCollectMat;
+                cursorObj.transform.localScale = new Vector3(10f, 10f, 10f);
+                helperHolderObj.transform.localPosition = cursorObj.transform.localPosition;
+            }
+            else
+            {
+                meshRenderer.material = cursorMat;
+                lineRenderer.material = cursorMat;
+                cursorObj.transform.localScale = new Vector3(3f, 3f, 3f);
+                helperHolderObj.transform.localPosition = new Vector3(0f, 0f, 0f);
             }
         }
     }
