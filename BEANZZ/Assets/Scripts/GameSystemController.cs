@@ -10,7 +10,7 @@ public class GameSystemController : MonoBehaviour
         Menu = 0,
         GamePlay,
         GamePause,
-        GameOver,
+        WinGame,
         PlayerToGateCutScene,
         GateToPlayerCutScene,
         CutSceneLive,
@@ -103,7 +103,7 @@ public class GameSystemController : MonoBehaviour
                 break;
             case GameStates.GamePause:
                 break;
-            case GameStates.GameOver:
+            case GameStates.WinGame:
                 break;
             case GameStates.PlayerToGateCutScene:
                 if (!CameraDirector.Instance.GetIsLive(CameraDirector.CameraList.FollowCam))
@@ -154,11 +154,9 @@ public class GameSystemController : MonoBehaviour
                 break;
             case GameStates.GamePlay:
 
-                if (NewGameState == GameStates.GameOver)
+                if (NewGameState == GameStates.WinGame)
                 {
-                    
-                    
-
+                    CameraDirector.Instance.SetCamera(CameraDirector.CameraList.FinishGameCam);
                     currentGameState = NewGameState;
                 }
                 else if(NewGameState == GameStates.GamePause)
@@ -205,7 +203,7 @@ public class GameSystemController : MonoBehaviour
                 }
                 break;
            
-            case GameStates.GameOver:
+            case GameStates.WinGame:
 
                 if (NewGameState == GameStates.GamePlay)
                 {
@@ -275,7 +273,7 @@ public class GameSystemController : MonoBehaviour
 
     public void RetryButtonPress()
     {
-        if(currentGameState == GameStates.GameOver)
+        if(currentGameState == GameStates.WinGame)
         {
             NewGameState = GameStates.GamePlay;
         }
@@ -290,7 +288,7 @@ public class GameSystemController : MonoBehaviour
     public void GotoMenuButtonPress()
     {
         //goto main menu
-        if(currentGameState == GameStates.GameOver)
+        if(currentGameState == GameStates.WinGame)
         {
             NewGameState = GameStates.Menu;
         }
@@ -311,7 +309,7 @@ public class GameSystemController : MonoBehaviour
             case GameStates.GamePause:
                 NewGameState = GameStates.GamePlay;
                 break;
-            case GameStates.GameOver:
+            case GameStates.WinGame:
                 
                 break;
             case GameStates.PlayerToGateCutScene:
@@ -346,5 +344,13 @@ public class GameSystemController : MonoBehaviour
         }
         canvasGroup.alpha = endAlpha;
         yield return new WaitForSeconds(fadeTime);
+    }
+
+    public void winGame()
+    {
+        if(currentGameState == GameStates.GamePlay)
+        {
+            NewGameState = GameStates.WinGame;
+        }
     }
 }

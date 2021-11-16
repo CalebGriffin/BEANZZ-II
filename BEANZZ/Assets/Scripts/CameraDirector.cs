@@ -10,6 +10,7 @@ public class CameraDirector : MonoBehaviour
         MenuCam = 0,
         FollowCam,
         CutSceneCam,
+        FinishGameCam,
         NumOfCams
     }
 
@@ -21,7 +22,7 @@ public class CameraDirector : MonoBehaviour
     }
 
     [SerializeField] private CinemachineBrain cameraBrain;
-    [SerializeField] private CinemachineVirtualCamera[] cameraList = new CinemachineVirtualCamera[(int)CameraList.NumOfCams] {null, null, null };
+    [SerializeField] private CinemachineVirtualCamera[] cameraList = new CinemachineVirtualCamera[(int)CameraList.NumOfCams];
 
     private static CameraDirector instance;
     
@@ -91,5 +92,6 @@ public class CameraDirector : MonoBehaviour
     public bool GetIsLive(CameraList vCam)
     {
         return CinemachineCore.Instance.IsLive(cameraList[(int)vCam]);
+        
     }
 }
