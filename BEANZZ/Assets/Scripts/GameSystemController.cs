@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameSystemController : MonoBehaviour
 {
@@ -17,10 +18,13 @@ public class GameSystemController : MonoBehaviour
         NumOfGameStates
     }
 
-
+    [SerializeField] int sweetsToWin;
     [SerializeField] Canvas pauseCanvas;
     [SerializeField] Canvas inPlayCanvas;
     [SerializeField] Canvas menuCanvas;
+    [SerializeField] Canvas winCanvas;
+    [SerializeField] GameObject player;
+    Animator playerAnimator;
 
     private GameStates newGameState = GameStates.Menu;
     private GameStates currentGameState = GameStates.Menu;
@@ -60,12 +64,14 @@ public class GameSystemController : MonoBehaviour
 
     private void Awake()
     {
+        winCanvas.enabled = false;
         pauseCanvas.enabled = false;
         inPlayCanvas.enabled = false;
         menuCanvas.enabled = true;
         currentGameState = GameStates.Menu;
         newGameState = currentGameState;
         CameraDirector.Instance.SetCamera(CameraDirector.CameraList.FollowCam);
+        playerAnimator = player.GetComponent<Animator>();
     }
 
     // Start is called before the first frame update
@@ -99,7 +105,10 @@ public class GameSystemController : MonoBehaviour
                 }
                 break;
             case GameStates.GamePlay:
-                
+                if(player.GetComponent<PlayerMovement>().sweets >= sweetsToWin)
+                {
+                    GameSystemController.Instance.winGame();
+                }
                 break;
             case GameStates.GamePause:
                 break;
@@ -157,6 +166,8 @@ public class GameSystemController : MonoBehaviour
                 if (NewGameState == GameStates.WinGame)
                 {
                     CameraDirector.Instance.SetCamera(CameraDirector.CameraList.FinishGameCam);
+                    winCanvas.enabled = true;
+                    playerAnimator.SetBool("winGame", true);
                     currentGameState = NewGameState;
                 }
                 else if(NewGameState == GameStates.GamePause)
@@ -310,7 +321,8 @@ public class GameSystemController : MonoBehaviour
                 NewGameState = GameStates.GamePlay;
                 break;
             case GameStates.WinGame:
-                
+                //reload the scene
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
                 break;
             case GameStates.PlayerToGateCutScene:
                 break;

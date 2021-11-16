@@ -58,7 +58,6 @@ public class ButtonUIManager : MonoBehaviour
                 {
                     SetButtonAlphaAndScale((DiamondButtonMap)i, selectedAlpha, selectedScale);
                     throwButton.SetActive(true);
-                    GameSystemController.Instance.winGame();
                 }
                 else
                 {
