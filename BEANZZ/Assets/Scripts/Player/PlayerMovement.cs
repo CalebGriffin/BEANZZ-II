@@ -55,6 +55,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float sensitivity;
 
     [SerializeField] LineRenderer lineRenderer;
+    
+    public int sweets = 0;
 
     // Start is called before the first frame update
     void Start()

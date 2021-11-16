@@ -355,6 +355,17 @@ public class @PlayerControls : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""705665c4-3bbe-42eb-9b82-3c6ac5675e82"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Controller;All Controls"",
+                    ""action"": ""Escape"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""8c414b51-0b2f-434a-a556-7e9a5abbb459"",
                     ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",
